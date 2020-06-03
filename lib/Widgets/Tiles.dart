@@ -9,7 +9,7 @@ class _TilesState extends State<Tiles> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.blueGrey,
+      color: Colors.grey,
       child: Icon(
         Icons.fastfood,
         size: 80,

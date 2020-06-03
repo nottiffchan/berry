@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'constants.dart';
 import 'package:leeks/Widgets/Tiles.dart';
 
 class HomePage extends StatefulWidget {
@@ -21,73 +23,57 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        title: Text(
-          "Home",
-          style: TextStyle(
-            color: Colors.green[700],
-            fontSize: 30,
-            fontFamily: 'Pacifico',
-          ),
-        ),
-      ),
-      body: Padding(
+      body: NestedScrollView(
+        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+          return <Widget>[
+            SliverAppBar(
+              backgroundColor: navy,
+              expandedHeight: 250,
+              floating: false,
+              pinned: true,
+              snap: false,
+              flexibleSpace: FlexibleSpaceBar(
+                titlePadding: EdgeInsets.symmetric(horizontal: 8, vertical: 10),
+                title: Container(
+                  width: MediaQuery.of(context).size.width * 0.63,
+                  child: CupertinoTextField(
+                    keyboardType: TextInputType.text,
+                    placeholder: "Buy what fuck",
+                    placeholderStyle: TextStyle(
+                      color: Colors.grey,
+                      fontSize: 14.0,
+                    ),
+                    prefix: Padding(
+                      padding: const EdgeInsets.all(3.0),
+                      child: Icon(Icons.search, color: Colors.grey),
+                    ),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8.0),
+                        color: Colors.white,
+                    ),
+                  ),
+                ),
+                background: Image.asset('assets/banner.png', fit: BoxFit.cover),
+                
+              ),
+            )
+          ];
+        },
+        body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10),
         child: Column(
           children: <Widget>[
-            Row(
-              children: <Widget>[
-                Expanded(
-                  child: TextField(
-                    decoration: InputDecoration(
-                      hintText: "What would you like to buy?",
-                      hintStyle: TextStyle(
-                        fontSize: 18,
-                        color: Colors.black.withOpacity(0.5),
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  width: 20,
-                ),
-                InkWell(
-                  onTap: () {},
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
-                      border: Border.all(
-                        color: Colors.black,
-                      ),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(5.0),
-                      child: Icon(
-                        Icons.search,
-                        size: 22,
-                        color: Colors.black,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 20,
-            ),
             Expanded(
               child: Container(
                 child: GridView(
                   scrollDirection: Axis.vertical,
                   physics: ClampingScrollPhysics(),
                   gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                    maxCrossAxisExtent: 100,
+                    maxCrossAxisExtent:125,
                     mainAxisSpacing: 10,
                     crossAxisSpacing: 8,
                   ),
-                  children: List.generate(5, (index) {
+                  children: List.generate(12, (index) {
                     return GridTile(
                       child: Tiles(),
                     );
@@ -97,6 +83,8 @@ class _HomePageState extends State<HomePage> {
             )
           ],
         ),
+      ),
+
       ),
     );
   }
