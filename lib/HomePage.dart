@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'constants.dart';
 import 'package:leeks/Widgets/Tiles.dart';
 import 'package:google_fonts/google_fonts.dart';
-
+import 'package:leeks/ShoppingList/screens/list_screen.dart';
+import 'package:leeks/ShoppingList/screens/add_list_screen.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -64,6 +65,68 @@ class _HomePageState extends State<HomePage> {
 
     return Scaffold(
       backgroundColor: Colors.white,
+      drawer: Drawer(
+        child: Column(
+          children: [
+            Expanded(
+              flex: 4,
+              child: Container(
+                child: DrawerHeader(
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage("assets/sidebarmenu.png"),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            Expanded(
+              flex: 16,
+              child: ListsScreen(),
+            ),
+            Expanded(
+              flex: 2,
+              child: GestureDetector(
+                onTap: () {
+                  showModalBottomSheet(
+                    context: context,
+                    isScrollControlled: true,
+                    builder: (context) => SingleChildScrollView(
+                      child: Container(
+                        padding: EdgeInsets.only(
+                            bottom: MediaQuery.of(context).viewInsets.bottom),
+                        child: AddListScreen(),
+                      ),
+                    ),
+                  );
+                },
+                child: Container(
+                  color: Colors.grey[200],
+                  child: Row(
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.all(15.0),
+                        child: Icon(
+                          Icons.add,
+                          size: 30,
+                        ),
+                      ),
+                      Text(
+                        "ADD LIST",
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontFamily: "MavenPro",
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
       body: NestedScrollView(
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return <Widget>[
@@ -92,13 +155,13 @@ class _HomePageState extends State<HomePage> {
                       child: Icon(Icons.search, color: Colors.white),
                     ),
                     decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8.0),
-                        color: navyAccent,
+                      borderRadius: BorderRadius.circular(8.0),
+                      color: navyAccent,
                     ),
                   ),
                 ),
-                background: Image.asset('assets/berrybanner1.png', fit: BoxFit.cover),
-                
+                background:
+                    Image.asset('assets/berrybanner1.png', fit: BoxFit.cover),
               ),
             )
           ];
@@ -309,8 +372,7 @@ class _HomePageState extends State<HomePage> {
           ),
         )
       ),
-
-      ),
+    )
     );
   }
 }
