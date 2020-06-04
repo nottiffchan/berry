@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class Tile extends StatefulWidget {
   final String category, name;
@@ -17,13 +18,12 @@ class _TileState extends State<Tile> {
     return Container(
       color: widget.bg,
       child: Stack(
-        // mainAxisAlignment: MainAxisAlignment.center,
         alignment: Alignment.center,
         children: <Widget>[
           Container(
             padding: EdgeInsets.only(bottom: 15),
             child: Image.asset(widget.img),
-            width: MediaQuery.of(context).size.width * 0.15,
+            width: MediaQuery.of(context).size.width * 0.17,
           ),
 
           Padding(
@@ -32,7 +32,14 @@ class _TileState extends State<Tile> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
                 // Text(widget.category),
-                Text(widget.name),
+                Text(
+                  widget.name, 
+                  style: GoogleFonts.mavenPro(
+                    textStyle: TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
+                    fontSize: 19,
+                    
+                  ),
+                ),
               ],
             ),
           ),
@@ -41,3 +48,5 @@ class _TileState extends State<Tile> {
     );
   }
 }
+
+//montserrat, muli, titilliumWeb, mavenPro
