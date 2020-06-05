@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:leeks/groceryList.dart';
+import 'package:provider/provider.dart';
 import 'constants.dart';
 import 'package:leeks/Widgets/Tiles.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -12,62 +14,64 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  var addedToList = <Tile>[
 
-  ];
 
   var fruitsVegetables = <Tile>[
-    new Tile(grey, ("assets/banana.png"), name: 'Banana'),
-    new Tile(grey, ("assets/broccoli.png"), name: 'Broccoli'),
-    new Tile(grey,("assets/cherries.png"), name: 'Cherry'),
-    new Tile(grey,("assets/mushroom.png"), name: 'Mushroom'),
+    new Tile(("assets/banana.png"), 'Banana'),
+    new Tile(("assets/broccoli.png"), 'Broccoli'),
+    new Tile(("assets/cherries.png"), 'Cherry'),
+    new Tile(("assets/mushroom.png"), 'Mushroom'),
   ];
 
   var meatFish = <Tile>[
-    new Tile(grey,("assets/meat.png"), name: 'Beef'),
-    new Tile(grey,("assets/chicken.png"), name: 'Chicken'),
-    new Tile(grey,("assets/eggs.png"), name: 'Eggs'),
-    new Tile(grey,("assets/fish.png"), name: 'Fish'),
-    new Tile(grey,("assets/lobster.png"), name: 'Lobster'),
+    new Tile(("assets/meat.png"), 'Beef'),
+    new Tile(("assets/chicken.png"), 'Chicken'),
+    new Tile(("assets/eggs.png"), 'Eggs'),
+    new Tile(("assets/fish.png"), 'Fish'),
+    new Tile(("assets/lobster.png"), 'Lobster'),
   ];
 
   var dairy = <Tile>[
-    new Tile(grey,("assets/butter.png"), name: 'Butter'),
-    new Tile(grey,("assets/cheese.png"), name: 'Cheese'),
-    new Tile(grey,("assets/milk.png"), name: 'Milk'),
+    new Tile(("assets/butter.png"), 'Butter'),
+    new Tile(("assets/cheese.png"), 'Cheese'),
+    new Tile(("assets/milk.png"), 'Milk'),
   ];
 
   var dryGoods = <Tile>[
-    new Tile(grey,("assets/bread.png"), name: 'Bread'),
-    new Tile(grey,("assets/flour.png"), name: 'Flour'),
-    new Tile(grey,("assets/noodles.png"), name: 'Noodles'),
-    new Tile(grey,("assets/rice.png"), name: 'Rice'),
-    new Tile(grey,("assets/onion.png"), name: 'Onion'),
+    new Tile(("assets/bread.png"), 'Bread'),
+    new Tile(("assets/flour.png"), 'Flour'),
+    new Tile(("assets/noodles.png"), 'Noodles'),
+    new Tile(("assets/rice.png"), 'Rice'),
+    new Tile(("assets/onion.png"), 'Onion'),
   ];
 
   var beverages = <Tile>[
-    new Tile(grey,("assets/beer.png"), name: 'Beer'),
-    new Tile(grey,("assets/coffee.png"), name: 'Coffee'),
-    new Tile(grey,("assets/juice.png"), name: 'Juice'),
-    new Tile(grey,("assets/coke.png"), name: 'Soft Drink'),
-    new Tile(grey,("assets/tea.png"), name: 'Tea'),
+    new Tile(("assets/beer.png"), 'Beer'),
+    new Tile(("assets/coffee.png"), 'Coffee'),
+    new Tile(("assets/juice.png"), 'Juice'),
+    new Tile(("assets/coke.png"), 'Soft Drink'),
+    new Tile(("assets/tea.png"), 'Tea'),
   ];
 
   var snacksSweets = <Tile>[
-    new Tile(grey,("assets/ice-cream.png"), name: 'Ice Cream'),
-    new Tile(grey,("assets/chips.png"), name: 'Chips'),
-    new Tile(grey,("assets/chocolate.png"), name: 'Chocolate'),
+    new Tile(("assets/ice-cream.png"), 'Ice Cream'),
+    new Tile(("assets/chips.png"), 'Chips'),
+    new Tile(("assets/chocolate.png"), 'Chocolate'),
   ];
 
 
   @override
   Widget build(BuildContext context) {
+    final groceryList grocerylist = Provider.of<groceryList>(context);
 
     return Scaffold(
       backgroundColor: Colors.white,
       drawer: Drawer(
         child: Column(
           children: [
+
+// START OF SIDE BAR LIST STUFF
+
             Expanded(
               flex: 4,
               child: Container(
@@ -127,6 +131,12 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
+
+// END OF SIDE BAR LIST STUFF
+
+
+// START OF SLIVER BAR
+
       body: NestedScrollView(
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return <Widget>[
@@ -166,11 +176,17 @@ class _HomePageState extends State<HomePage> {
             )
           ];
         },
+
+// END OF SLIVER BAR
+
         body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10),
         child: SingleChildScrollView(
           child: Column(
             children: <Widget>[
+
+// START OF ADDED TO GROCERY LIST TILES
+
               GridView.count(
                 shrinkWrap: true,
                 physics: ClampingScrollPhysics(),
@@ -179,34 +195,61 @@ class _HomePageState extends State<HomePage> {
                 crossAxisSpacing: 6,
                 mainAxisSpacing: 6,
                 childAspectRatio: 1,
-                children: List.generate(addedToList.length, (index) {
-                  return GridTile(
-                    child: Tile(
-                      grey,
-                      addedToList[index].img, 
-                      name: addedToList[index].name,
-                    )
-                  );
+                children: List.generate(grocerylist.inList.length, (index) {
+                    return GridTile(
+                      child: Tile(
+                        grocerylist.inList[index].img, 
+                        grocerylist.inList[index].name,
+                      )
+                    );
                 },
                 )
+                // children: List.generate(grocerylist.imgList.length, (index) {
+                //     return GridTile(
+                //       child: Text(
+                        
+                //         grocerylist.imgList[index], 
+                //       )
+                //     );
+                // },
+                // )
               ),
+
+// END OF ADDED TO GROCERY LIST TILES
+
+
+// RECENTLY USED EXPANSION TILE
+
               ExpansionTile(
                 title: Text("Recently Used", style: GoogleFonts.mavenPro(fontSize: 20)),
-                // leading: Icon(Icons.child_care),
                 children: <Widget>[
-                  Column(
-                    children: <Widget>[
-                      Text("BANANA", style: GoogleFonts.mavenPro(fontSize: 20, fontWeight: FontWeight.bold),),
-                      Container(width: 100, child: Image.asset("assets/banana.png"))
-                    ],
-                  )
+                  GridView.count(
+                    shrinkWrap: true,
+                    physics: ClampingScrollPhysics(),
+                    crossAxisCount: 3,
+                    padding: const EdgeInsets.all(6),
+                    crossAxisSpacing: 6,
+                    mainAxisSpacing: 6,
+                    childAspectRatio: 1,
+                    children: List.generate(grocerylist.recentlyUsed.length, (index) {
+                      return GridTile(
+                        child: Tile(
+                          grocerylist.recentlyUsed[index].img, 
+                          grocerylist.recentlyUsed[index].name,
+                        )
+                      );
+                    },
+                    )
+                  ),
                 ],
                 backgroundColor: Colors.white,
-                initiallyExpanded: false,
+                // initiallyExpanded: false,
               ),
+
+
+// FRUIT AND VEG EXPANSION TILE
               ExpansionTile(
                 title: Text("Fruits and Vegetables", style: GoogleFonts.mavenPro(fontSize: 20)),
-                // leading: Icon(Icons.child_care),
                 children: <Widget>[
                   GridView.count(
                     shrinkWrap: true,
@@ -219,9 +262,8 @@ class _HomePageState extends State<HomePage> {
                     children: List.generate(fruitsVegetables.length, (index) {
                       return GridTile(
                         child: Tile(
-                          grey,
                           fruitsVegetables[index].img, 
-                          name: fruitsVegetables[index].name,
+                          fruitsVegetables[index].name,
                         )
                       );
                     },
@@ -229,8 +271,12 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ],
                 backgroundColor: Colors.white,
-                initiallyExpanded: false,
+                // initiallyExpanded: false,
               ),
+
+
+
+// MEAT AND FISH EXPANSION TILE
               ExpansionTile(
                 title: Text("Meat and Fish", style: GoogleFonts.mavenPro(fontSize: 20)),
                 children: <Widget>[
@@ -245,9 +291,8 @@ class _HomePageState extends State<HomePage> {
                     children: List.generate(meatFish.length, (index) {
                       return GridTile(
                         child: Tile(
-                          grey,
                           meatFish[index].img, 
-                          name: meatFish[index].name,
+                          meatFish[index].name,
                         )
                       );
                     },
@@ -257,9 +302,11 @@ class _HomePageState extends State<HomePage> {
                 backgroundColor: Colors.white,
                 initiallyExpanded: false,
               ),
+
+
+// DAIRY EXPANSION TILE
               ExpansionTile(
                 title: Text("Dairy", style: GoogleFonts.mavenPro(fontSize: 20)),
-                // leading: Icon(Icons.child_care),
                 children: <Widget>[
                   GridView.count(
                     shrinkWrap: true,
@@ -272,9 +319,8 @@ class _HomePageState extends State<HomePage> {
                     children: List.generate(dairy.length, (index) {
                       return GridTile(
                         child: Tile(
-                          grey,
                           dairy[index].img, 
-                          name: dairy[index].name,
+                          dairy[index].name,
                         )
                       );
                     },
@@ -285,9 +331,11 @@ class _HomePageState extends State<HomePage> {
                 initiallyExpanded: false,
               ),
 
+
+// DRY GOODS EXPANSION TILE
+
               ExpansionTile(
                 title: Text("Dry Goods", style: GoogleFonts.mavenPro(fontSize: 20)),
-                // leading: Icon(Icons.child_care),
                 children: <Widget>[
                   GridView.count(
                     shrinkWrap: true,
@@ -300,9 +348,8 @@ class _HomePageState extends State<HomePage> {
                     children: List.generate(dryGoods.length, (index) {
                       return GridTile(
                         child: Tile(
-                          grey,
                           dryGoods[index].img, 
-                          name: dryGoods[index].name,
+                          dryGoods[index].name,
                         )
                       );
                     },
@@ -313,9 +360,10 @@ class _HomePageState extends State<HomePage> {
                 initiallyExpanded: false,
               ),
 
+
+// SNACKS AND SWEETS EXPANSION TILE
               ExpansionTile(
                 title: Text("Snacks and Sweets", style: GoogleFonts.mavenPro(fontSize: 20)),
-                // leading: Icon(Icons.child_care),
                 children: <Widget>[
                   GridView.count(
                     shrinkWrap: true,
@@ -328,9 +376,8 @@ class _HomePageState extends State<HomePage> {
                     children: List.generate(snacksSweets.length, (index) {
                       return GridTile(
                         child: Tile(
-                          grey,
                           snacksSweets[index].img, 
-                          name: snacksSweets[index].name,
+                          snacksSweets[index].name,
                         )
                       );
                     },
@@ -341,9 +388,10 @@ class _HomePageState extends State<HomePage> {
                 initiallyExpanded: false,
               ),
 
+
+// BEVERAGES EXPANSION TILE
               ExpansionTile(
                 title: Text("Beverages", style: GoogleFonts.mavenPro(fontSize: 20)),
-                // leading: Icon(Icons.child_care),
                 children: <Widget>[
                   GridView.count(
                     shrinkWrap: true,
@@ -356,9 +404,8 @@ class _HomePageState extends State<HomePage> {
                     children: List.generate(beverages.length, (index) {
                       return GridTile(
                         child: Tile(
-                          grey,
                           beverages[index].img, 
-                          name: beverages[index].name,
+                          beverages[index].name,
                         )
                       );
                     },

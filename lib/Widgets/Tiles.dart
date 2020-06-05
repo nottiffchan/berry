@@ -1,26 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:leeks/constants.dart';
+import 'package:leeks/groceryList.dart';
+import 'package:provider/provider.dart';
 
 class Tile extends StatefulWidget {
-  final String name;
-  final String img;
-  Color bg = grey;
+  final String img, name;
 
-  Tile(this.bg, this.img, {this.name});
+  Tile(this.img, this.name);
 
   @override
   _TileState createState() => _TileState();
 }
 
 class _TileState extends State<Tile> {
-  Color c = grey;
 
+  
   @override
   Widget build(BuildContext context) {
+    final groceryList grocerylist = Provider.of<groceryList>(context);
+    Tile t = new Tile(widget.img, widget.name);
+
     return InkWell(
       child: Container(
-        color: widget.bg,
+        color: grocerylist.imgList.contains(t.img) ? red : grey,
         child: Stack(
           alignment: Alignment.center,
           children: <Widget>[
@@ -45,15 +49,22 @@ class _TileState extends State<Tile> {
                 ],
               ),
             ),
-            
           ]
         )
       ),
+
       onTap: () {
         setState(() {
-          widget.bg == grey ? widget.bg = red : widget.bg = grey;
+          if (grocerylist.imgList.contains(t.img)) {
+            grocerylist.remove(t);
+            grocerylist.recentAdd(t);
+            
+          } else {
+            grocerylist.add(t);
+          }
         });
       },
+
     );
 
   }
