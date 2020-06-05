@@ -19,16 +19,28 @@ class _HomePageState extends State<HomePage> {
   var fruitsVegetables = <Tile>[
     new Tile(("assets/banana.png"), 'Banana'),
     new Tile(("assets/broccoli.png"), 'Broccoli'),
+    new Tile('assets/coconut.png', 'Coconut'),
+    new Tile('assets/corn.png', 'Corn'),
+    new Tile('assets/pepper.png', 'Capsicum'),
     new Tile(("assets/cherries.png"), 'Cherry'),
+    new Tile('assets/lemon.png', 'Lemon'),
     new Tile(("assets/mushroom.png"), 'Mushroom'),
+    new Tile('assets/orange.png', 'Orange'),
+    new Tile('assets/pineapple.png', 'Pineapple'),
+    new Tile('assets/tomato.png', 'Tomato'),
+    new Tile('assets/watermelon.png', 'Watermelon')
   ];
 
   var meatFish = <Tile>[
     new Tile(("assets/meat.png"), 'Beef'),
     new Tile(("assets/chicken.png"), 'Chicken'),
+    new Tile('assets/crab.png', 'Crab'),
     new Tile(("assets/eggs.png"), 'Eggs'),
     new Tile(("assets/fish.png"), 'Fish'),
     new Tile(("assets/lobster.png"), 'Lobster'),
+    new Tile("assets/pork.png", "Pork"),
+    new Tile('assets/sausage.png', 'Sausage'),
+    new Tile("assets/shrimp.png", "Shrimp")
   ];
 
   var dairy = <Tile>[
@@ -51,6 +63,7 @@ class _HomePageState extends State<HomePage> {
     new Tile(("assets/juice.png"), 'Juice'),
     new Tile(("assets/coke.png"), 'Soft Drink'),
     new Tile(("assets/tea.png"), 'Tea'),
+    new Tile("assets/virus.png", 'Corona Beer'),
   ];
 
   var snacksSweets = <Tile>[
