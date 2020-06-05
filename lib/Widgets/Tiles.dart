@@ -15,7 +15,6 @@ class Tile extends StatefulWidget {
 }
 
 class _TileState extends State<Tile> {
-
   
   @override
   Widget build(BuildContext context) {
@@ -23,48 +22,47 @@ class _TileState extends State<Tile> {
     Tile t = new Tile(widget.img, widget.name);
 
     return InkWell(
-      child: Container(
-        color: grocerylist.imgList.contains(t.img) ? red : grey,
-        child: Stack(
-          alignment: Alignment.center,
-          children: <Widget>[
-            Container(
-              padding: EdgeInsets.only(bottom: 15),
-              child: Image.asset(widget.img),
-              width: MediaQuery.of(context).size.width * 0.17,
-            ),
-
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: <Widget>[
-                  Text(
-                    widget.name, 
-                    style: GoogleFonts.mavenPro(
-                      textStyle: TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
-                      fontSize: 19,
-                    ),
-                  ),
-                ],
+        child: Container(
+          color: grocerylist.imgList.contains(t.img) ? tileRed : tileGrey,
+          child: Stack(
+            alignment: Alignment.center,
+            children: <Widget>[
+              Container(
+                padding: EdgeInsets.only(bottom: 15),
+                child: Image.asset(widget.img),
+                width: MediaQuery.of(context).size.width * 0.17,
               ),
-            ),
-          ]
-        )
-      ),
 
-      onTap: () {
-        setState(() {
-          if (grocerylist.imgList.contains(t.img)) {
-            grocerylist.remove(t);
-            grocerylist.recentAdd(t);
-            
-          } else {
-            grocerylist.add(t);
-          }
-        });
-      },
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: <Widget>[
+                    Text(
+                      widget.name, 
+                      style: GoogleFonts.mavenPro(
+                        textStyle: TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
+                        fontSize: 19,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ]
+          )
+        ),
 
+        onTap: () {
+          setState(() {
+            if (grocerylist.imgList.contains(t.img)) {
+              grocerylist.remove(t);
+              grocerylist.recentAdd(t);
+              
+            } else {
+              grocerylist.add(t);
+            }
+          });
+        },
     );
 
   }

@@ -14,7 +14,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
+  double opacityLevel = 1.0;
 
   var fruitsVegetables = <Tile>[
     new Tile(("assets/banana.png"), 'Banana'),
@@ -187,32 +187,30 @@ class _HomePageState extends State<HomePage> {
 
 // START OF ADDED TO GROCERY LIST TILES
 
-              GridView.count(
-                shrinkWrap: true,
-                physics: ClampingScrollPhysics(),
-                crossAxisCount: 3,
-                padding: const EdgeInsets.all(6),
-                crossAxisSpacing: 6,
-                mainAxisSpacing: 6,
-                childAspectRatio: 1,
-                children: List.generate(grocerylist.inList.length, (index) {
-                    return GridTile(
-                      child: Tile(
-                        grocerylist.inList[index].img, 
-                        grocerylist.inList[index].name,
-                      )
-                    );
-                },
-                )
-                // children: List.generate(grocerylist.imgList.length, (index) {
-                //     return GridTile(
-                //       child: Text(
-                        
-                //         grocerylist.imgList[index], 
-                //       )
-                //     );
-                // },
-                // )
+              Container(
+                child: grocerylist.inList.length == 0 ?
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 40),
+                  child: Text("Nothing to buy!", style: TextStyle(fontFamily: "MavenPro",  fontSize: 25, color: navy),),
+                ) : 
+                GridView.count(
+                  shrinkWrap: true,
+                  physics: ClampingScrollPhysics(),
+                  crossAxisCount: 3,
+                  padding: const EdgeInsets.all(6),
+                  crossAxisSpacing: 6,
+                  mainAxisSpacing: 6,
+                  childAspectRatio: 1,
+                  children: List.generate(grocerylist.inList.length, (index) {
+                      return GridTile(
+                        child: Tile(
+                          grocerylist.inList[index].img, 
+                          grocerylist.inList[index].name,
+                        )
+                      );
+                  },
+                  )
+                ),
               ),
 
 // END OF ADDED TO GROCERY LIST TILES
@@ -221,26 +219,26 @@ class _HomePageState extends State<HomePage> {
 // RECENTLY USED EXPANSION TILE
 
               ExpansionTile(
-                title: Text("Recently Used", style: GoogleFonts.mavenPro(fontSize: 20)),
+                title: Text("Recently Used", style: GoogleFonts.mavenPro(fontSize: 20, color: navy)),
                 children: <Widget>[
                   GridView.count(
-                    shrinkWrap: true,
-                    physics: ClampingScrollPhysics(),
-                    crossAxisCount: 3,
-                    padding: const EdgeInsets.all(6),
-                    crossAxisSpacing: 6,
-                    mainAxisSpacing: 6,
-                    childAspectRatio: 1,
-                    children: List.generate(grocerylist.recentlyUsed.length, (index) {
-                      return GridTile(
-                        child: Tile(
-                          grocerylist.recentlyUsed[index].img, 
-                          grocerylist.recentlyUsed[index].name,
-                        )
-                      );
-                    },
-                    )
-                  ),
+                      shrinkWrap: true,
+                      physics: ClampingScrollPhysics(),
+                      crossAxisCount: 3,
+                      padding: const EdgeInsets.all(6),
+                      crossAxisSpacing: 6,
+                      mainAxisSpacing: 6,
+                      childAspectRatio: 1,
+                      children: List.generate(grocerylist.recentlyUsed.length, (index) {
+                        return GridTile(
+                          child: Tile(
+                            grocerylist.recentlyUsed[index].img, 
+                            grocerylist.recentlyUsed[index].name,
+                          )
+                        );
+                      },
+                      )
+                    ),
                 ],
                 backgroundColor: Colors.white,
                 // initiallyExpanded: false,
@@ -249,7 +247,7 @@ class _HomePageState extends State<HomePage> {
 
 // FRUIT AND VEG EXPANSION TILE
               ExpansionTile(
-                title: Text("Fruits and Vegetables", style: GoogleFonts.mavenPro(fontSize: 20)),
+                title: Text("Fruits and Vegetables", style: GoogleFonts.mavenPro(fontSize: 20, color: navy)),
                 children: <Widget>[
                   GridView.count(
                     shrinkWrap: true,
@@ -278,7 +276,7 @@ class _HomePageState extends State<HomePage> {
 
 // MEAT AND FISH EXPANSION TILE
               ExpansionTile(
-                title: Text("Meat and Fish", style: GoogleFonts.mavenPro(fontSize: 20)),
+                title: Text("Meat and Fish", style: GoogleFonts.mavenPro(fontSize: 20, color: navy)),
                 children: <Widget>[
                   GridView.count(
                     shrinkWrap: true,
@@ -306,7 +304,7 @@ class _HomePageState extends State<HomePage> {
 
 // DAIRY EXPANSION TILE
               ExpansionTile(
-                title: Text("Dairy", style: GoogleFonts.mavenPro(fontSize: 20)),
+                title: Text("Dairy", style: GoogleFonts.mavenPro(fontSize: 20, color: navy)),
                 children: <Widget>[
                   GridView.count(
                     shrinkWrap: true,
@@ -335,7 +333,7 @@ class _HomePageState extends State<HomePage> {
 // DRY GOODS EXPANSION TILE
 
               ExpansionTile(
-                title: Text("Dry Goods", style: GoogleFonts.mavenPro(fontSize: 20)),
+                title: Text("Dry Goods", style: GoogleFonts.mavenPro(fontSize: 20, color: navy)),
                 children: <Widget>[
                   GridView.count(
                     shrinkWrap: true,
@@ -363,7 +361,7 @@ class _HomePageState extends State<HomePage> {
 
 // SNACKS AND SWEETS EXPANSION TILE
               ExpansionTile(
-                title: Text("Snacks and Sweets", style: GoogleFonts.mavenPro(fontSize: 20)),
+                title: Text("Snacks and Sweets", style: GoogleFonts.mavenPro(fontSize: 20, color: navy)),
                 children: <Widget>[
                   GridView.count(
                     shrinkWrap: true,
@@ -391,7 +389,7 @@ class _HomePageState extends State<HomePage> {
 
 // BEVERAGES EXPANSION TILE
               ExpansionTile(
-                title: Text("Beverages", style: GoogleFonts.mavenPro(fontSize: 20)),
+                title: Text("Beverages", style: GoogleFonts.mavenPro(fontSize: 20, color: navy)),
                 children: <Widget>[
                   GridView.count(
                     shrinkWrap: true,
