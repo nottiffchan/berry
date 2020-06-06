@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:leeks/HomePage.dart';
 import 'package:leeks/constants.dart';
 import 'package:leeks/groceryList.dart';
 import 'package:provider/provider.dart';
@@ -11,17 +12,17 @@ class Tile extends StatefulWidget {
   Tile(this.img, this.name);
 
   @override
-  _TileState createState() => _TileState();
+  TileState createState() => TileState();
 }
 
-class _TileState extends State<Tile> with TickerProviderStateMixin {
+class TileState extends State<Tile> with TickerProviderStateMixin {
   AnimationController controller;
   Animation<double> animation;
 
   initState() {
     super.initState();
     controller = AnimationController(
-        duration: const Duration(milliseconds: 300), vsync: this);
+      duration: const Duration(milliseconds: 300), vsync: this);
     animation = CurvedAnimation(parent: controller, curve: Curves.easeIn);
 
     controller.forward();
