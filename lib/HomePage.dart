@@ -14,7 +14,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  double opacityLevel = 1.0;
 
   var fruitsVegetables = <Tile>[
     new Tile(("assets/banana.png"), 'Banana'),
@@ -27,6 +26,8 @@ class _HomePageState extends State<HomePage> {
     new Tile(("assets/mushroom.png"), 'Mushroom'),
     new Tile('assets/orange.png', 'Orange'),
     new Tile('assets/pineapple.png', 'Pineapple'),
+    new Tile('assets/potato.png', 'Potatoes'),
+    new Tile('assets/strawberry.png', 'Strawberry'),
     new Tile('assets/tomato.png', 'Tomato'),
     new Tile('assets/watermelon.png', 'Watermelon')
   ];
@@ -51,16 +52,20 @@ class _HomePageState extends State<HomePage> {
 
   var dryGoods = <Tile>[
     new Tile(("assets/bread.png"), 'Bread'),
+    new Tile(("assets/croissant.png"), 'Croissant'),
+    new Tile(("assets/donut.png"), 'Donut'),
     new Tile(("assets/flour.png"), 'Flour'),
     new Tile(("assets/noodles.png"), 'Noodles'),
-    new Tile(("assets/rice.png"), 'Rice'),
     new Tile(("assets/onion.png"), 'Onion'),
+    new Tile(("assets/rice.png"), 'Rice'),
+    new Tile(("assets/waffle.png"), 'Waffle'),
   ];
 
   var beverages = <Tile>[
     new Tile(("assets/beer.png"), 'Beer'),
     new Tile(("assets/coffee.png"), 'Coffee'),
     new Tile(("assets/juice.png"), 'Juice'),
+    new Tile(("assets/liquor.png"), 'Liquor'),
     new Tile(("assets/coke.png"), 'Soft Drink'),
     new Tile(("assets/tea.png"), 'Tea'),
     new Tile("assets/virus.png", 'Corona Beer'),
@@ -70,6 +75,8 @@ class _HomePageState extends State<HomePage> {
     new Tile(("assets/ice-cream.png"), 'Ice Cream'),
     new Tile(("assets/chips.png"), 'Chips'),
     new Tile(("assets/chocolate.png"), 'Chocolate'),
+    new Tile(("assets/jam.png"), 'Jam'),
+    new Tile(("assets/peanutbutter.png"), 'Peanut Butter'),
   ];
 
 
@@ -202,29 +209,32 @@ class _HomePageState extends State<HomePage> {
 
               Container(
                 child: grocerylist.inList.length == 0 ?
+
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 40),
                   child: Text("Nothing to buy!", style: TextStyle(fontFamily: "MavenPro",  fontSize: 25, color: navy),),
                 ) : 
+                
                 GridView.count(
-                  shrinkWrap: true,
-                  physics: ClampingScrollPhysics(),
-                  crossAxisCount: 3,
-                  padding: const EdgeInsets.all(6),
-                  crossAxisSpacing: 6,
-                  mainAxisSpacing: 6,
-                  childAspectRatio: 1,
-                  children: List.generate(grocerylist.inList.length, (index) {
-                      return GridTile(
-                        child: Tile(
+                shrinkWrap: true,
+                physics: ClampingScrollPhysics(),
+                crossAxisCount: 3,
+                padding: const EdgeInsets.all(6),
+                crossAxisSpacing: 6,
+                mainAxisSpacing: 6,
+                childAspectRatio: 1,
+                children: List.generate(grocerylist.inList.length, (index) {
+                    return GridTile(
+                      child: Tile(
                           grocerylist.inList[index].img, 
                           grocerylist.inList[index].name,
                         )
-                      );
-                  },
-                  )
-                ),
+                    );
+                },
+                )
               ),
+                
+            ),
 
 // END OF ADDED TO GROCERY LIST TILES
 
