@@ -75,12 +75,11 @@ class HomePageState extends State<HomePage>{
 
   ExpansionTile categories(List<Tile> list, String label) {
     return ExpansionTile(
-                title: Text(label, style: GoogleFonts.mavenPro(fontSize: 20, color: navy)),
-                children: <Widget>[
-                  gridFormation(list)
-                ],
-                backgroundColor: Colors.white,
-              );
+      title:
+          Text(label, style: GoogleFonts.mavenPro(fontSize: 20, color: navy)),
+      children: <Widget>[gridFormation(list)],
+      backgroundColor: Colors.white,
+    );
   }
 
   Widget gridFormation(List<Tile> list) {
@@ -141,6 +140,7 @@ class HomePageState extends State<HomePage>{
                     isScrollControlled: true,
                     builder: (context) => SingleChildScrollView(
                       child: Container(
+                        height: MediaQuery.of(context).size.height * 0.6,
                         padding: EdgeInsets.only(
                             bottom: MediaQuery.of(context).viewInsets.bottom),
                         child: AddListScreen(),
@@ -191,7 +191,7 @@ class HomePageState extends State<HomePage>{
                     titlePadding: EdgeInsets.symmetric(horizontal: 8, vertical: 9),
                     centerTitle: !isSearching,
                     title: Container(
-                      width: isSearching ? MediaQuery.of(context).size.width * 0.63 : MediaQuery.of(context).size.width * 0.63,
+                      width: MediaQuery.of(context).size.width * 0.63,
                       height: MediaQuery.of(context).size.height * 0.04,
                       child: Row(
                         children: <Widget>[
