@@ -73,7 +73,7 @@ var snacksSweets = <Tile>[
   new Tile(("assets/chips.png"), 'Chips'),
   new Tile(("assets/chocolate.png"), 'Chocolate'),
   new Tile(("assets/jam.png"), 'Jam'),
-  new Tile(("assets/peanutbutter.png"), 'Peanut Butter'),
+  new Tile(("assets/peanutbutter.png"), 'PB'),
 ];
 
 var allItems =

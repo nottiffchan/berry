@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:leeks/groceryList.dart';
+import 'package:leeks/mySliver.dart';
 import 'package:provider/provider.dart';
 import 'constants.dart';
 import 'package:leeks/Widgets/Tiles.dart';
@@ -29,6 +30,12 @@ class _HomePageState extends State<HomePage> {
     _focus.addListener(onFocusChange);
   }
 
+  @override
+  void dispose() {
+    _focus.dispose();
+    super.dispose();
+  }
+
   void onFocusChange() {
     setState(() {
       searchController.text = '';
@@ -42,34 +49,27 @@ class _HomePageState extends State<HomePage> {
     _tiles.addAll(allItems);
 
     if (searchController.text.isNotEmpty) {
-      _tiles.retainWhere(
-        (tile) {
-          String searched = searchController.text.toLowerCase();
-          String tileName = tile.name.toLowerCase();
-          return tileName.startsWith(searched);
-        },
-      );
+      _tiles.retainWhere((tile) {
+        String searched = searchController.text.toLowerCase();
+        String tileName = tile.name.toLowerCase();
+        return tileName.startsWith(searched);
+      });
 
-      setState(
-        () {
-          grocerylist.filterTiles(_tiles);
-        },
-      );
+      setState(() {
+        grocerylist.filterTiles(_tiles);
+      });
     }
   }
 
   Future<List<Tile>> search(String search) async {
     await Future.delayed(Duration(seconds: 2));
     if (search == "empty") return [];
-    return List.generate(
-      search.length,
-      (int index) {
-        return Tile(
-          "img : $search $index",
-          "Name :$search $index",
-        );
-      },
-    );
+    return List.generate(search.length, (int index) {
+      return Tile(
+        "img : $search $index",
+        "Name :$search $index",
+      );
+    });
   }
 
   ExpansionTile categories(List<Tile> list, String label) {
@@ -107,169 +107,189 @@ class _HomePageState extends State<HomePage> {
     final groceryList grocerylist = Provider.of<groceryList>(context);
 
     return Scaffold(
-        backgroundColor: Colors.white,
+      backgroundColor: Colors.white,
 
 // SIDE BAR LIST STUFF HERE
-        drawer: Drawer(
-          child: Column(
-            children: [
-              Expanded(
-                flex: 4,
+      drawer: Drawer(
+        child: Column(
+          children: [
+            Expanded(
+              flex: 4,
+              child: Container(
+                child: DrawerHeader(
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage("assets/sidebarmenu.png"),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            Expanded(
+              flex: 16,
+              child: ListsScreen(),
+            ),
+            Expanded(
+              flex: 2,
+              child: GestureDetector(
+                onTap: () {
+                  showModalBottomSheet(
+                    context: context,
+                    isScrollControlled: true,
+                    builder: (context) => SingleChildScrollView(
+                      child: Container(
+                        padding: EdgeInsets.only(
+                            bottom: MediaQuery.of(context).viewInsets.bottom),
+                        child: AddListScreen(),
+                      ),
+                    ),
+                  );
+                },
                 child: Container(
-                  child: DrawerHeader(
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage("assets/sidebarmenu.png"),
-                        fit: BoxFit.cover,
+                  color: Colors.grey[200],
+                  child: Row(
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.all(15.0),
+                        child: Icon(
+                          Icons.add,
+                          size: 30,
+                        ),
                       ),
-                    ),
+                      Text(
+                        "ADD LIST",
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontFamily: "MavenPro",
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
-              Expanded(
-                flex: 16,
-                child: ListsScreen(),
-              ),
-              Expanded(
-                flex: 2,
-                child: GestureDetector(
-                  onTap: () {
-                    showModalBottomSheet(
-                      context: context,
-                      isScrollControlled: true,
-                      builder: (context) => SingleChildScrollView(
-                        child: Container(
-                          height: MediaQuery.of(context).size.height * 0.6,
-                          padding: EdgeInsets.only(
-                              bottom: MediaQuery.of(context).viewInsets.bottom),
-                          child: AddListScreen(),
-                        ),
-                      ),
-                    );
-                  },
-                  child: Container(
-                    color: Colors.grey[200],
-                    child: Row(
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.all(15.0),
-                          child: Icon(
-                            Icons.add,
-                            size: 30,
-                          ),
-                        ),
-                        Text(
-                          "ADD LIST",
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontFamily: "MavenPro",
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
+      ),
 
 // SLIVER APP BAR
-        body: NestedScrollView(
-          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-            return <Widget>[
-              SliverAppBar(
-                backgroundColor: navy,
-                expandedHeight: 275,
-                floating: false,
-                pinned: true,
-                snap: false,
-                flexibleSpace: FlexibleSpaceBar(
-                  titlePadding:
-                      EdgeInsets.symmetric(horizontal: 8, vertical: 9),
-                  centerTitle: true,
-                  title: Container(
-                      width: MediaQuery.of(context).size.width * 0.63,
-                      height: MediaQuery.of(context).size.height * 0.04,
-                      child: CupertinoTextField(
-                        focusNode: _focus,
-                        controller: searchController,
-                        style: GoogleFonts.mavenPro(),
-                        keyboardType: TextInputType.text,
-                        placeholder: "Search for ingredients",
-                        placeholderStyle: TextStyle(
-                          color: Colors.white.withOpacity(0.4),
-                          fontSize: 14.0,
+
+      body: NestedScrollView(
+        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+          return <Widget>[
+            SliverAppBar(
+              backgroundColor: navy,
+              expandedHeight: 275,
+              floating: false,
+              pinned: true,
+              snap: false,
+              flexibleSpace: FlexibleSpaceBar(
+                titlePadding: EdgeInsets.symmetric(horizontal: 8, vertical: 9),
+                centerTitle: !isSearching,
+                title: Container(
+                    width: isSearching
+                        ? MediaQuery.of(context).size.width * 0.63
+                        : MediaQuery.of(context).size.width * 0.63,
+                    height: MediaQuery.of(context).size.height * 0.04,
+                    child: Row(
+                      children: <Widget>[
+                        Expanded(
+                          child: CupertinoTextField(
+                            focusNode: _focus,
+                            controller: searchController,
+                            style: GoogleFonts.mavenPro(),
+                            keyboardType: TextInputType.text,
+                            placeholder: "What u want buy",
+                            placeholderStyle: TextStyle(
+                              color: Colors.white,
+                              fontSize: 14.0,
+                            ),
+                            prefix: Padding(
+                              padding: const EdgeInsets.all(3.0),
+                              child: Icon(Icons.search, color: Colors.white),
+                            ),
+                            suffix: Padding(
+                              padding: const EdgeInsets.all(3),
+                              child: InkWell(
+                                  child: Icon(Icons.clear,
+                                      color: Colors.grey[300], size: 20),
+                                  onTap: () {
+                                    searchController.text = '';
+                                  }),
+                            ),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8.0),
+                              color: navyAccent,
+                            ),
+                          ),
                         ),
-                        prefix: Padding(
-                          padding: const EdgeInsets.all(3.0),
-                          child: Icon(Icons.search, color: Colors.white),
-                        ),
-                        suffix: Padding(
-                          padding: const EdgeInsets.all(3),
-                          child: InkWell(
-                              child: Icon(Icons.clear,
-                                  color: Colors.grey[300], size: 20),
-                              onTap: () {
-                                // if (searchController.text.isEmpty) {
-                                //   _focus.unfocus();
-                                // } else {
-                                searchController.text = '';
-                                // }
-                              }),
-                        ),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8.0),
-                          color: navyAccent,
-                        ),
-                      )),
-                  background:
-                      Image.asset('assets/berrybanner1.png', fit: BoxFit.cover),
-                ),
-              )
-            ];
-          },
+                        isSearching
+                            ? Padding(
+                                padding: const EdgeInsets.only(left: 8),
+                                child: InkWell(
+                                  child: Text(
+                                    "CANCEL",
+                                    style: TextStyle(
+                                        fontSize: 10,
+                                        fontFamily: "MavenPro",
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  onTap: () {
+                                    _focus.unfocus();
+                                  },
+                                ))
+                            : Text("")
+                      ],
+                    )),
+                background:
+                    Image.asset('assets/berrybanner1.png', fit: BoxFit.cover),
+              ),
+            )
+          ];
+        },
 
 // BODY
-          body: GestureDetector(
-            onTap: () {
-              _focus.unfocus();
-            },
-            child: isSearching
-                ? gridFormation(grocerylist.filteredTiles)
-                : Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: SingleChildScrollView(
-                      child: Column(
-                        children: <Widget>[
+        body: GestureDetector(
+          onTap: () {
+            _focus.unfocus();
+          },
+          child: isSearching
+              ? gridFormation(grocerylist.filteredTiles)
+              : Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: <Widget>[
 // ADDED TO GROCERY LIST
-                          Container(
-                              child: grocerylist.inList.length == 0
-                                  ? Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 50, horizontal: 40),
-                                      child: Text(
-                                        "Nothing to buy!",
-                                        style: TextStyle(
-                                            fontFamily: "MavenPro",
-                                            fontSize: 25,
-                                            color: navy),
-                                      ),
-                                    )
-                                  : gridFormation(grocerylist.inList)),
+                        Container(
+                            child: grocerylist.inList.length == 0
+                                ? Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 50, horizontal: 40),
+                                    child: Text(
+                                      "Nothing to buy!",
+                                      style: TextStyle(
+                                          fontFamily: "MavenPro",
+                                          fontSize: 25,
+                                          color: navy),
+                                    ),
+                                  )
+                                : gridFormation(grocerylist.inList)),
 
 // EXPANSION TILES
-                          categories(grocerylist.recentlyUsed, "Recently Used"),
-                          categories(fruitsVegetables, "Fruits and Vegetables"),
-                          categories(meatFish, "Meat and Fish"),
-                          categories(dairy, "Dairy"),
-                          categories(dryGoods, "Dry Goods"),
-                          categories(snacksSweets, "Snacks and Sweets"),
-                          categories(beverages, "Beverages"),
-                        ],
-                      ),
-                    )),
-          ),
-        ));
+                        categories(grocerylist.recentlyUsed, "Recently Used"),
+                        categories(fruitsVegetables, "Fruits and Vegetables"),
+                        categories(meatFish, "Meat and Fish"),
+                        categories(dairy, "Dairy"),
+                        categories(dryGoods, "Dry Goods"),
+                        categories(snacksSweets, "Snacks and Sweets"),
+                        categories(beverages, "Beverages"),
+                      ],
+                    ),
+                  )),
+        ),
+      ),
+    );
   }
 }
