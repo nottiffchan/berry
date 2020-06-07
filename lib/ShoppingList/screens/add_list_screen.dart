@@ -31,6 +31,9 @@ class AddListScreen extends StatelessWidget {
                   fontWeight: FontWeight.w600,
                 ),
               ),
+              Expanded(
+                child: Image.asset('assets/addlist.png'),
+              ),
               TextField(
                 decoration: InputDecoration(
                   enabledBorder: UnderlineInputBorder(

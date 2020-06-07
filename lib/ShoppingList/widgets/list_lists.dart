@@ -11,7 +11,15 @@ class TasksList extends StatelessWidget {
         return ListView.builder(
           itemBuilder: (context, index) {
             final list = ListData.shoppinglists[index];
-            return ShoppingListTile(listTitle: list.name);
+            return Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: ShoppingListTile(
+                listTitle: list.name,
+                longPressCallback: () {
+                  ListData.deleteTask(list);
+                },
+              ),
+            );
           },
           itemCount: ListData.shoppinglists.length,
         );

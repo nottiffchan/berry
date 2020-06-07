@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:leeks/groceryList.dart';
@@ -179,7 +177,6 @@ class HomePageState extends State<HomePage>{
 
 
 // SLIVER APP BAR
-          
               
       body: NestedScrollView(
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
@@ -251,45 +248,38 @@ class HomePageState extends State<HomePage>{
               child: isSearching 
               ? gridFormation(grocerylist.filteredTiles)
               : Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: SingleChildScrollView(
-                  child: Stack(
-                  children: <Widget> [
-                    BackdropFilter(filter: ImageFilter.blur(sigmaX:5, sigmaY: 5), 
-                    child: Container(color: Colors.black.withOpacity(0))),
-                    Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: SingleChildScrollView(
                     child: Column(
                       children: <Widget>[
 
-// ADDED TO GROCERY LIST
-                      Container(
-                        child: grocerylist.inList.length == 0
-                        ? Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 40),
-                          child: Text("Nothing to buy!", style: TextStyle(fontFamily: "MavenPro",  fontSize: 25, color: navy),),
-                        )
-                        : gridFormation(grocerylist.inList)
-                      ),
+  // ADDED TO GROCERY LIST
+                        Container(
+                          child: grocerylist.inList.length == 0
+                          ? Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 40),
+                            child: Text("Nothing to buy!", style: TextStyle(fontFamily: "MavenPro",  fontSize: 25, color: navy),),
+                          )
+                          : gridFormation(grocerylist.inList)
+                        ),
 
 
-// EXPANSION TILES
-                      categories(grocerylist.recentlyUsed, "Recently Used"),
-                      categories(fruitsVegetables, "Fruits and Vegetables"),
-                      categories(meatFish, "Meat and Fish"),
-                      categories(dairy, "Dairy"),
-                      categories(dryGoods, "Dry Goods"),
-                      categories(snacksSweets, "Snacks and Sweets"),
-                      categories(beverages, "Beverages"),
+  // EXPANSION TILES
+                        categories(grocerylist.recentlyUsed, "Recently Used"),
+                        categories(fruitsVegetables, "Fruits and Vegetables"),
+                        categories(meatFish, "Meat and Fish"),
+                        categories(dairy, "Dairy"),
+                        categories(dryGoods, "Dry Goods"),
+                        categories(snacksSweets, "Snacks and Sweets"),
+                        categories(beverages, "Beverages"),
+
 
                       ],
                     ),
                   )
-                  ])
-        )
+                ),
+              ),
       ),
-      ),
-    ),
-          
     );
   }
 }
