@@ -8,8 +8,10 @@ import 'package:provider/provider.dart';
 
 class Tile extends StatefulWidget {
   final String img, name;
+  final VoidCallback focus;
+  final FocusNode fNode;
 
-  Tile(this.img, this.name);
+  Tile(this.img, this.name, {this.focus, this.fNode});
 
   @override
   TileState createState() => TileState();
@@ -31,38 +33,40 @@ class TileState extends State<Tile> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     final groceryList grocerylist = Provider.of<groceryList>(context);
+
     Tile t = new Tile(widget.img, widget.name);
 
     return InkWell(
+        focusNode: widget.fNode,
         child: FadeTransition(opacity: animation,
             child: Container(
-            color: grocerylist.imgList.contains(t.img) ? tileRed : tileGrey,
-            child: Stack(
-              alignment: Alignment.center,
-              children: <Widget>[
-                Container(
-                  padding: EdgeInsets.only(bottom: 15),
-                  child: Image.asset(widget.img),
-                  width: MediaQuery.of(context).size.width * 0.17,
-                ),
-
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: <Widget>[
-                      Text(
-                        widget.name, 
-                        style: GoogleFonts.mavenPro(
-                          textStyle: TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
-                          fontSize: 19,
-                        ),
-                      ),
-                    ],
+              color: grocerylist.imgList.contains(t.img) ? tileRed : tileGrey,
+              child: Stack(
+                alignment: Alignment.center,
+                children: <Widget>[
+                  Container(
+                    padding: EdgeInsets.only(bottom: 15),
+                    child: Image.asset(widget.img),
+                    width: MediaQuery.of(context).size.width * 0.17,
                   ),
-                ),
-              ]
-            )
+
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: <Widget>[
+                        Text(
+                          widget.name, 
+                          style: GoogleFonts.mavenPro(
+                            textStyle: TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
+                            fontSize: 19,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ]
+              )
           ),
         ),
 

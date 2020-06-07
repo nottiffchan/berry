@@ -1,7 +1,8 @@
+import 'dart:ui';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:leeks/groceryList.dart';
-import 'package:leeks/mySliver.dart';
 import 'package:provider/provider.dart';
 import 'constants.dart';
 import 'package:leeks/Widgets/Tiles.dart';
@@ -12,15 +13,15 @@ import 'package:leeks/ShoppingList/screens/add_list_screen.dart';
 class HomePage extends StatefulWidget {
 
   @override
-  _HomePageState createState() => _HomePageState();
+  HomePageState createState() => HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
-  // final GlobalKey<TileState> _key = GlobalKey();
-
+class HomePageState extends State<HomePage>{
+  
   FocusNode _focus = new FocusNode();
   bool isSearching = false;
   TextEditingController searchController = new TextEditingController();
+
 
   @override
   void initState() {
@@ -36,6 +37,7 @@ class _HomePageState extends State<HomePage> {
     _focus.dispose();
     super.dispose();
   }
+
 
   void onFocusChange() { 
     setState(() {
@@ -184,7 +186,7 @@ class _HomePageState extends State<HomePage> {
           return <Widget>[
                 SliverAppBar(
                   backgroundColor: navy,
-                  expandedHeight: 275,
+                  expandedHeight: 225,
                   floating: false,
                   pinned: true,
                   snap: false,
@@ -251,8 +253,13 @@ class _HomePageState extends State<HomePage> {
               : Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: SingleChildScrollView(
-                  child: Column(
-                    children: <Widget>[
+                  child: Stack(
+                  children: <Widget> [
+                    BackdropFilter(filter: ImageFilter.blur(sigmaX:5, sigmaY: 5), 
+                    child: Container(color: Colors.black.withOpacity(0))),
+                    Container(
+                    child: Column(
+                      children: <Widget>[
 
 // ADDED TO GROCERY LIST
                       Container(
@@ -274,8 +281,10 @@ class _HomePageState extends State<HomePage> {
                       categories(snacksSweets, "Snacks and Sweets"),
                       categories(beverages, "Beverages"),
 
-                ],
-              ),
+                      ],
+                    ),
+                  )
+                  ])
         )
       ),
       ),
