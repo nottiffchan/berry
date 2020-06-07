@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:leeks/groceryList.dart';
-import 'package:leeks/mySliver.dart';
 import 'package:provider/provider.dart';
 import 'constants.dart';
 import 'package:leeks/Widgets/Tiles.dart';
@@ -139,6 +138,7 @@ class _HomePageState extends State<HomePage> {
                     isScrollControlled: true,
                     builder: (context) => SingleChildScrollView(
                       child: Container(
+                        height: MediaQuery.of(context).size.height * 0.6,
                         padding: EdgeInsets.only(
                             bottom: MediaQuery.of(context).viewInsets.bottom),
                         child: AddListScreen(),
