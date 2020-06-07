@@ -23,9 +23,6 @@ class groceryList extends ChangeNotifier {
   List<Tile> get filteredTiles => _filteredTiles;
   List<Tile> get allTiles => _allTiles;
 
-  // bool get isSearching => _isSearching;
-  // FocusNode get focus => _focus;
-
 
   add(Tile t) {
     if (_recentlyUsedimg.contains(t.img)) {

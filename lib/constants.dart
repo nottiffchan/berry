@@ -44,7 +44,7 @@ Color tileRed = Color(0xfff77561);
     new Tile(("assets/butter.png"), 'Butter'),
     new Tile(("assets/cheese.png"), 'Cheese'),
     new Tile(("assets/milk.png"), 'Milk'),
-    new Tile('assets/yoghurt.png', 'Yoghurt'),
+    new Tile('assets/yogurt.png', 'Yoghurt'),
   ];
 
   var dryGoods = <Tile>[
@@ -73,7 +73,7 @@ Color tileRed = Color(0xfff77561);
     new Tile(("assets/chips.png"), 'Chips'),
     new Tile(("assets/chocolate.png"), 'Chocolate'),
     new Tile(("assets/jam.png"), 'Jam'),
-    new Tile(("assets/peanutbutter.png"), 'Peanut Butter'),
+    new Tile(("assets/peanutbutter.png"), 'PB'),
   ];
 
   var allItems = fruitsVegetables + meatFish + dairy + dryGoods + snacksSweets + beverages;

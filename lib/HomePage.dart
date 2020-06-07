@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:leeks/groceryList.dart';
+import 'package:leeks/mySliver.dart';
 import 'package:provider/provider.dart';
 import 'constants.dart';
 import 'package:leeks/Widgets/Tiles.dart';
@@ -28,6 +29,12 @@ class _HomePageState extends State<HomePage> {
       filterTiles();
     });
     _focus.addListener(onFocusChange);
+  }
+
+  @override
+  void dispose() {
+    _focus.dispose();
+    super.dispose();
   }
 
   void onFocusChange() { 
@@ -170,99 +177,110 @@ class _HomePageState extends State<HomePage> {
 
 
 // SLIVER APP BAR
+          
+              
       body: NestedScrollView(
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return <Widget>[
-            SliverAppBar(
-              backgroundColor: navy,
-              expandedHeight: 275,
-              floating: false,
-              pinned: true,
-              snap: false,
-              flexibleSpace: FlexibleSpaceBar(
-                titlePadding: EdgeInsets.symmetric(horizontal: 8, vertical: 9),
-                centerTitle: true,
-                title: Container(
-                  width: MediaQuery.of(context).size.width * 0.63,
-                  height: MediaQuery.of(context).size.height * 0.04,
-                  child: CupertinoTextField(
-                    focusNode: _focus,
-                    controller: searchController,
-                    style: GoogleFonts.mavenPro(),
-                    keyboardType: TextInputType.text,
-                    placeholder: "What u want buy",
-                    placeholderStyle: TextStyle(
-                      color: Colors.white,
-                      fontSize: 14.0,
+                SliverAppBar(
+                  backgroundColor: navy,
+                  expandedHeight: 275,
+                  floating: false,
+                  pinned: true,
+                  snap: false,
+                  flexibleSpace: FlexibleSpaceBar(
+                    titlePadding: EdgeInsets.symmetric(horizontal: 8, vertical: 9),
+                    centerTitle: !isSearching,
+                    title: Container(
+                      width: isSearching ? MediaQuery.of(context).size.width * 0.63 : MediaQuery.of(context).size.width * 0.63,
+                      height: MediaQuery.of(context).size.height * 0.04,
+                      child: Row(
+                        children: <Widget>[
+                          Expanded(
+                            child: CupertinoTextField(
+                              focusNode: _focus,
+                              controller: searchController,
+                              style: GoogleFonts.mavenPro(),
+                              keyboardType: TextInputType.text,
+                              placeholder: "What u want buy",
+                              placeholderStyle: TextStyle(
+                                color: Colors.white,
+                                fontSize: 14.0,
+                              ),
+                              prefix: Padding(
+                                padding: const EdgeInsets.all(3.0),
+                                child: Icon(Icons.search, color: Colors.white),
+                              ),
+                              suffix: Padding(
+                                padding: const EdgeInsets.all(3),
+                                child: InkWell(
+                                    child: Icon(Icons.clear, color: Colors.grey[300], size: 20),
+                                    onTap: () {
+                                        searchController.text = '';
+                                    }
+                                ), 
+                            ),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8.0),
+                              color: navyAccent,
+                            ),
+                            ),
+                          ),
+                          isSearching ? Padding(
+                            padding: const EdgeInsets.only(left: 8),
+                            child: InkWell(
+                            child: Text("CANCEL", style: TextStyle(fontSize: 10, fontFamily: "MavenPro", fontWeight: FontWeight.bold),),
+                            onTap: () {_focus.unfocus(); },
+                          )) : Text("")
+                        ],
+                      )
                     ),
-                    prefix: Padding(
-                      padding: const EdgeInsets.all(3.0),
-                      child: Icon(Icons.search, color: Colors.white),
-                    ),
-                    suffix: Padding(
-                      padding: const EdgeInsets.all(3),
-                      child: InkWell(
-                          child: Icon(Icons.clear, color: Colors.grey[300], size: 20),
-                          onTap: () {
-                            // if (searchController.text.isEmpty) {
-                            //   _focus.unfocus();
-                            // } else {
-                              searchController.text = '';
-                            // }
-                          }
-                      ), 
+                    background:
+                        Image.asset('assets/berrybanner1.png', fit: BoxFit.cover),
                   ),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8.0),
-                    color: navyAccent,
-                  ),
-                  )
-                ),
-                background:
-                    Image.asset('assets/berrybanner1.png', fit: BoxFit.cover),
-              ),
-            )
-          ];
+                )
+              ];
         },
 
 
 // BODY
         body: GestureDetector(
-          onTap: () {_focus.unfocus(); },
-          child: isSearching 
-          ? gridFormation(grocerylist.filteredTiles)
-          : Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: SingleChildScrollView(
-              child: Column(
-                children: <Widget>[
+              onTap: () {_focus.unfocus(); },
+              child: isSearching 
+              ? gridFormation(grocerylist.filteredTiles)
+              : Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: <Widget>[
 
 // ADDED TO GROCERY LIST
-                  Container(
-                    child: grocerylist.inList.length == 0
-                    ? Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 40),
-                      child: Text("Nothing to buy!", style: TextStyle(fontFamily: "MavenPro",  fontSize: 25, color: navy),),
-                    )
-                    : gridFormation(grocerylist.inList)
-                  ),
+                      Container(
+                        child: grocerylist.inList.length == 0
+                        ? Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 40),
+                          child: Text("Nothing to buy!", style: TextStyle(fontFamily: "MavenPro",  fontSize: 25, color: navy),),
+                        )
+                        : gridFormation(grocerylist.inList)
+                      ),
 
 
 // EXPANSION TILES
-                  categories(grocerylist.recentlyUsed, "Recently Used"),
-                  categories(fruitsVegetables, "Fruits and Vegetables"),
-                  categories(meatFish, "Meat and Fish"),
-                  categories(dairy, "Dairy"),
-                  categories(dryGoods, "Dry Goods"),
-                  categories(snacksSweets, "Snacks and Sweets"),
-                  categories(beverages, "Beverages"),
+                      categories(grocerylist.recentlyUsed, "Recently Used"),
+                      categories(fruitsVegetables, "Fruits and Vegetables"),
+                      categories(meatFish, "Meat and Fish"),
+                      categories(dairy, "Dairy"),
+                      categories(dryGoods, "Dry Goods"),
+                      categories(snacksSweets, "Snacks and Sweets"),
+                      categories(beverages, "Beverages"),
 
-            ],
-          ),
+                ],
+              ),
         )
       ),
       ),
-    )
+    ),
+          
     );
   }
 }
