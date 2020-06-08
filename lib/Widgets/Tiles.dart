@@ -36,7 +36,11 @@ class TileState extends State<Tile> with TickerProviderStateMixin {
     return InkWell(
         child: FadeTransition(opacity: animation,
             child: Container(
-            color: grocerylist.imgList.contains(t.img) ? tileRed : tileGrey,
+              decoration: BoxDecoration(
+              color: grocerylist.imgList.contains(t.img) ? tileRed : tileGrey,
+              borderRadius: BorderRadius.circular(20),
+              ),
+            // color: grocerylist.imgList.contains(t.img) ? tileRed : tileGrey,
             child: Stack(
               alignment: Alignment.center,
               children: <Widget>[

@@ -67,3 +67,6 @@ flutter:
     - family: MavenPro
       fonts:
         - asset: fonts/MavenPro-Regular.ttf
+    - family: FredokaOne
+      fonts:
+        - asset: fonts/FredokaOne-Regular.ttf
