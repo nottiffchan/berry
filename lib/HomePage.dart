@@ -13,10 +13,10 @@ import 'package:leeks/Widgets/Tiles.dart';
 class HomePage extends StatefulWidget {
 
   @override
-  _HomePageState createState() => _HomePageState();
+  HomePageState createState() => HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class HomePageState extends State<HomePage> {
 
   int currentIndex = 0;
   PageController _pageController;

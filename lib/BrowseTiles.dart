@@ -69,16 +69,6 @@ class _BrowseTilesState extends State<BrowseTiles> {
     });
   }
 
-  // ExpansionTile categories(List<Tile> list, String label) {
-  //   return ExpansionTile(
-  //     title: Text(label, style: GoogleFonts.mavenPro(fontSize: 20, color: navy)),
-  //     children: <Widget>[
-  //       gridFormation(list)
-  //     ],
-  //     backgroundColor: Colors.white,
-  //   );
-  // }
-
   Widget gridFormation(List<Tile> list) {
     return GridView.count(
       shrinkWrap: true,

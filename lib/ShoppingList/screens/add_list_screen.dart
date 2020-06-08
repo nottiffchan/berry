@@ -25,11 +25,14 @@ class AddListScreen extends StatelessWidget {
                 'New List',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontFamily: 'MovenPro',
+                  fontFamily: 'MavenPro',
                   color: Colors.black,
                   fontSize: 30,
                   fontWeight: FontWeight.w600,
                 ),
+              ),
+              Expanded(
+                child: Image.asset('assets/addlist.png'),
               ),
               TextField(
                 decoration: InputDecoration(
@@ -43,7 +46,7 @@ class AddListScreen extends StatelessWidget {
                 autofocus: true, //auto keyboard come out
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontFamily: 'MovenPro',
+                  fontFamily: 'MavenPro',
                   fontSize: 18,
                 ),
                 onChanged: (newText) {
@@ -60,7 +63,7 @@ class AddListScreen extends StatelessWidget {
                 child: Text(
                   'Add List',
                   style: TextStyle(
-                    fontFamily: 'MovenPro',
+                    fontFamily: 'MavenPro',
                     fontSize: 20,
                     color: Colors.white,
                   ),

@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:leeks/HomePage.dart';
 import 'package:leeks/constants.dart';
 import 'package:leeks/groceryList.dart';
 import 'package:provider/provider.dart';
 
 class Tile extends StatefulWidget {
   final String img, name;
+  final VoidCallback focus;
+  final FocusNode fNode;
 
-  Tile(this.img, this.name);
+  Tile(this.img, this.name, {this.focus, this.fNode});
 
   @override
   TileState createState() => TileState();
@@ -31,16 +32,17 @@ class TileState extends State<Tile> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     final groceryList grocerylist = Provider.of<groceryList>(context);
+
     Tile t = new Tile(widget.img, widget.name);
 
     return InkWell(
+        focusNode: widget.fNode,
         child: FadeTransition(opacity: animation,
-            child: Container(
-              decoration: BoxDecoration(
-              color: grocerylist.imgList.contains(t.img) ? tileRed : Colors.grey[200],
-              borderRadius: BorderRadius.circular(20),
-              ),
-            // color: grocerylist.imgList.contains(t.img) ? tileRed : tileGrey,
+          child: Container(
+            decoration: BoxDecoration(
+            color: grocerylist.imgList.contains(t.img) ? tileRed : Colors.grey[200],
+            borderRadius: BorderRadius.circular(20),
+            ),
             child: Stack(
               alignment: Alignment.center,
               children: <Widget>[
