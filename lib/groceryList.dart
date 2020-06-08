@@ -13,9 +13,6 @@ class groceryList extends ChangeNotifier {
   List<Tile> _filteredTiles = [];
   List<Tile> _allTiles = allItems;
 
-  bool _isSearching = false;
-  FocusNode _focus = FocusNode();
-
   List<Tile> get inList => _inList;
   List<String> get imgList => _imgList;
   List<Tile> get recentlyUsed => _recentlyUsed;

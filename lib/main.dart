@@ -20,14 +20,6 @@ class MyApp extends StatelessWidget {
         home: HomePage(),
       ),
     );
-    
-    // ChangeNotifierProvider(
-    //   create: (context) => groceryList(),
-    //   builder: (context) => ListData(),
-    //   child: MaterialApp(
-    //     debugShowCheckedModeBanner: false,
-    //     home: HomePage(),
-    //   ),
-    // );
+
   }
 }

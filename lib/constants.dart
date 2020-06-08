@@ -8,7 +8,12 @@ Color red = Color(0xffe66e63);
 Color berryRed = Color(0xffcf432d);
 
 Color tileGrey = Color(0xff8b99b0);
-Color tileRed = Color(0xfff77561);
+// Color tileRed = Color(0xfff77561);
+// Color tileRed = Color(0xffc8e079);
+Color tileRed = Color(0xffed806f);
+
+Color themePurple = Color(0xff9179e0);
+Color duskyPurple = Color(0xffdbd2f7);
 
   var fruitsVegetables = <Tile>[
     new Tile(("assets/banana.png"), 'Banana'),
@@ -78,4 +83,5 @@ Color tileRed = Color(0xfff77561);
   ];
 
   var allItems = fruitsVegetables + meatFish + dairy + dryGoods + snacksSweets + beverages;
+
 

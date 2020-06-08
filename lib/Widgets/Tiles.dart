@@ -37,7 +37,7 @@ class TileState extends State<Tile> with TickerProviderStateMixin {
         child: FadeTransition(opacity: animation,
             child: Container(
               decoration: BoxDecoration(
-              color: grocerylist.imgList.contains(t.img) ? tileRed : tileGrey,
+              color: grocerylist.imgList.contains(t.img) ? tileRed : Colors.grey[200],
               borderRadius: BorderRadius.circular(20),
               ),
             // color: grocerylist.imgList.contains(t.img) ? tileRed : tileGrey,
@@ -58,7 +58,9 @@ class TileState extends State<Tile> with TickerProviderStateMixin {
                       Text(
                         widget.name, 
                         style: GoogleFonts.mavenPro(
-                          textStyle: TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
+                          textStyle: TextStyle(
+                            color: grocerylist.imgList.contains(t.img) ? Colors.white : Colors.grey[600], 
+                            fontWeight: FontWeight.w600),
                           fontSize: 19,
                         ),
                       ),
