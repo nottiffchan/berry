@@ -27,6 +27,7 @@ dependencies:
   cupertino_icons: ^0.1.2
   provider: ^3.0.0+1
   bottom_navy_bar: ^5.4.0
+  sliding_up_panel: ^1.0.2
 
 dev_dependencies:
   flutter_test:

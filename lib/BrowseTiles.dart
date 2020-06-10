@@ -4,6 +4,7 @@ import 'package:leeks/Widgets/Tiles.dart';
 import 'package:leeks/constants.dart';
 import 'package:leeks/groceryList.dart';
 import 'package:provider/provider.dart';
+import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class BrowseTiles extends StatefulWidget {
   @override
@@ -12,8 +13,9 @@ class BrowseTiles extends StatefulWidget {
 
 class _BrowseTilesState extends State<BrowseTiles> {
   int displayIndex = 0;
-  var catColors = [themePurple, duskyPurple, duskyPurple, duskyPurple, duskyPurple, duskyPurple, duskyPurple];
-
+  static int colorIndex = 0;
+  // var catColors;
+  var catColors = [selectedCat[colorIndex], unselectedCat[colorIndex], unselectedCat[colorIndex], unselectedCat[colorIndex], unselectedCat[colorIndex], unselectedCat[colorIndex], unselectedCat[colorIndex]];
   FocusNode _focus = new FocusNode();
   bool isSearching = false;
   TextEditingController searchController = new TextEditingController();
@@ -77,12 +79,14 @@ class _BrowseTilesState extends State<BrowseTiles> {
       padding: const EdgeInsets.all(6),
       crossAxisSpacing: 6,
       mainAxisSpacing: 6,
-      childAspectRatio: 1,
+      childAspectRatio: 0.9,
       children: List.generate(list.length, (index) {
         return GridTile(
           child: Tile(
             list[index].img, 
             list[index].name,
+            details: list[index].details == null ? null : list[index].details,
+
           )
         );
       },
@@ -90,26 +94,29 @@ class _BrowseTilesState extends State<BrowseTiles> {
     );
   }
 
-  
-
   Widget catTile(String name, String img, int index) {
+    final groceryList grocerylist = Provider.of<groceryList>(context);
+    int colorIndex = grocerylist.colorIndex;
+    // var catColors = [selectedCat[colorIndex], unselectedCat[colorIndex], unselectedCat[colorIndex], unselectedCat[colorIndex], unselectedCat[colorIndex], unselectedCat[colorIndex], unselectedCat[colorIndex]];
+
     return InkWell(
       splashColor: Colors.transparent,
-      onTap: () { setState(() {
-        displayIndex = index;
-        for (int i = 0; i < catColors.length; i++) {
-          catColors[i] = duskyPurple;
-        }
-        catColors[index] = themePurple;
-      });},
+      onTap: () { 
+        setState(() {
+          displayIndex = index;
+          for (int i = 0; i < catColors.length; i++) {
+            catColors[i] = unselectedCat[colorIndex];
+          }
+          catColors[index] = selectedCat[colorIndex];
+        });},
       child: Column(
         children: <Widget>[
           Container(
             child: Image.asset(img),
-            width: 90.0,
+            width: MediaQuery.of(context).size.width * 0.2,
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(80),
+              borderRadius: BorderRadius.circular(MediaQuery.of(context).size.width * 0.2),
               color: catColors[index],
             ),
           ),
@@ -121,121 +128,190 @@ class _BrowseTilesState extends State<BrowseTiles> {
     );
   }
 
+  Widget createDetails() {
+    final groceryList grocerylist = Provider.of<groceryList>(context);
+
+    return Container(
+        padding: EdgeInsets.all(8),
+        child: Column(
+          children: <Widget>[
+            SizedBox(height: 40),
+            Text(grocerylist.curr.name, style: TextStyle(fontFamily: "MavenPro", fontWeight: FontWeight.bold, fontSize: 25),),
+            SizedBox(height: 30),
+            Container(
+              height: 150,
+              child: CupertinoTextField(
+                onChanged: (text) { grocerylist.curr.details = text;},
+                padding: const EdgeInsets.symmetric(vertical: 12),
+                keyboardType: TextInputType.text,
+                placeholder: "Quantity, description...",
+                placeholderStyle: TextStyle(
+                  fontFamily: "MavenPro",
+                  color: Colors.grey[600],
+                  fontSize: 20.0,
+                ),
+                prefix: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Icon(Icons.create, color: Colors.grey[600]),
+                ),     
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(30),
+                color: Colors.grey[200],
+              ),
+              ),
+            ),
+          ],
+        ),
+      );
+  }
+
   @override
   Widget build(BuildContext context) {
-    final groceryList grocerylist = Provider.of<groceryList>(context);
+    final groceryList grocerylist = Provider.of<groceryList>(context);   
+
     var cats = [grocerylist.recentlyUsed ,fruitsVegetables, meatFish, dairy, dryGoods, snacksSweets, beverages];
     var grids = [
       catTile("Recent", "assets/harvest.png", 0),
       catTile("Fruit & Veg", "assets/corn.png", 1),
-      catTile("Meat and Fish", "assets/fish.png", 2),
+      catTile("Meat & Fish", "assets/fish.png", 2),
       catTile("Dairy", "assets/milk.png", 3),
       catTile("Dry Goods", "assets/flour.png", 4),
-      catTile("Snacks & Sweets", "assets/chips.png", 5),
+      catTile("Snacks", "assets/chips.png", 5),
       catTile("Beverages", "assets/coke.png", 6)
     ];
 
+    BorderRadiusGeometry radius = BorderRadius.only(
+      topLeft: Radius.circular(24.0),
+      topRight: Radius.circular(24.0),
+    );
 
-    return Scaffold(
-      backgroundColor: Colors.white,
+    return SlidingUpPanel(
+      minHeight: grocerylist.details ? 40 : 0,
+      maxHeight: 300,
+      margin: EdgeInsets.symmetric(horizontal: 20),
+      padding: EdgeInsets.symmetric(horizontal: 10),
+      borderRadius: radius,
+      panel: grocerylist.curr == null ? Text("") : createDetails(),
+      collapsed: Container(
+        decoration: BoxDecoration(
+          borderRadius: radius,
+        ),
+        child: Center(
+          child: Text(
+            "Add details",
+            style: TextStyle(color: Colors.grey[700], fontFamily: "MavenPro", fontSize: 20),
+          ),
+        ),
+      ),
+
+
+          body: Scaffold(
+          backgroundColor: Colors.white,
 
 // BODY
-        body: SingleChildScrollView(
-          child: Column(
-            children: <Widget>[
-              Container(
-                padding: const EdgeInsets.all(10),
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height * 0.12,
-                child: Row(
-                  children: <Widget>[
-                    Expanded(
-                      child: CupertinoTextField(
-                        padding: const EdgeInsets.symmetric(vertical: 12),
-                        focusNode: _focus,
-                        controller: searchController,
-                        keyboardType: TextInputType.text,
-                        placeholder: "Search for ingredients...",
-                        placeholderStyle: TextStyle(
-                          fontFamily: "MavenPro",
-                          color: Colors.grey[600],
-                          fontSize: 20.0,
-                        ),
-                        prefix: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Icon(Icons.search, color: Colors.grey[700]),
-                        ),
-                        suffix: isSearching ? Padding(
-                          padding: const EdgeInsets.all(8),
-                          child: InkWell(
-                              child: Icon(Icons.clear, color: Colors.grey[600], size: 20),
-                              onTap: () {
-                                  searchController.text = '';
-                              }
-                          ), 
-                      ) : Text(""),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(30),
-                        color: Colors.grey[200],
-                      ),
-                      ),
-                    ),
-                    isSearching ? Padding(
-                      padding: const EdgeInsets.only(left: 8),
-                      child: InkWell(
-                      child: Text("CANCEL", style: TextStyle(fontSize: 15, fontFamily: "MavenPro", fontWeight: FontWeight.bold),),
-                      onTap: () {_focus.unfocus(); },
-                    )) : Text("")
-                  ],
-                )
-              ),
-
-              GestureDetector(
-              onTap: () {_focus.unfocus(); },
-              child: isSearching 
-              ? gridFormation(grocerylist.filteredTiles)
-              : Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: Column(
+          body: SingleChildScrollView(
+            child: Column(
+              children: <Widget>[
+                Container(
+                  padding: const EdgeInsets.all(10),
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height * 0.12,
+                  child: Row(
                     children: <Widget>[
-
-  // ADDED TO GROCERY LIST
-
-                      Container(
-                        margin: EdgeInsets.symmetric(vertical: 15.0, horizontal: 10),
-                        // padding: EdgeInsets.only(bottom: 10),
-                        height: 130.0,
-                        child: Scrollbar(
-                          child: ListView(  
-                            scrollDirection: Axis.horizontal,
-                            children: <Widget>[
-                              grids[0],
-                              SizedBox(width: 10),
-                              grids[1],
-                              SizedBox(width: 10),
-                              grids[2],
-                              SizedBox(width: 10,),
-                              grids[3],
-                              SizedBox(width: 10,),
-                              grids[4],
-                              SizedBox(width: 10,),
-                              grids[5],
-                              SizedBox(width: 10,),
-                              grids[6],
-                            ],
+                      Expanded(
+                        child: CupertinoTextField(
+                          padding: const EdgeInsets.symmetric(vertical: 12),
+                          focusNode: _focus,
+                          controller: searchController,
+                          keyboardType: TextInputType.text,
+                          placeholder: "Search for ingredients...",
+                          placeholderStyle: TextStyle(
+                            fontFamily: "MavenPro",
+                            color: Colors.grey[600],
+                            fontSize: 20.0,
                           ),
+                          prefix: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Icon(Icons.search, color: Colors.grey[600]),
+                          ),
+                          suffix: isSearching ? Padding(
+                            padding: const EdgeInsets.all(8),
+                            child: InkWell(
+                                child: Icon(Icons.clear, color: Colors.grey[600], size: 20),
+                                onTap: () {
+                                    searchController.text = '';
+                                }
+                            ), 
+                        ) : Text(""),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(30),
+                          color: Colors.grey[200],
+                        ),
                         ),
                       ),
-
-                      gridFormation(cats[displayIndex]),
-
+                      isSearching ? Padding(
+                        padding: const EdgeInsets.only(left: 8),
+                        child: InkWell(
+                        child: Text("CANCEL", style: TextStyle(fontSize: 15, fontFamily: "MavenPro", fontWeight: FontWeight.bold, color: Colors.grey[700]),),
+                        onTap: () {_focus.unfocus(); },
+                      )) : Text("")
                     ],
                   )
                 ),
-              ),
-            ],
+
+                GestureDetector(
+                onTap: () {_focus.unfocus(); },
+                child: isSearching 
+                ? gridFormation(grocerylist.filteredTiles)
+                : Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: Column(
+                      children: <Widget>[
+
+  // ADDED TO GROCERY LIST
+
+                        Container(
+                          margin: EdgeInsets.symmetric(vertical: 15.0, horizontal: 10),
+                          height: MediaQuery.of(context).size.height * 0.17,
+                          child: Scrollbar(
+                            child: ListView(  
+                              scrollDirection: Axis.horizontal,
+                              children: <Widget>[
+                                grids[0],
+                                SizedBox(width: 10),
+                                grids[1],
+                                SizedBox(width: 10),
+                                grids[2],
+                                SizedBox(width: 10,),
+                                grids[3],
+                                SizedBox(width: 10,),
+                                grids[4],
+                                SizedBox(width: 10,),
+                                grids[5],
+                                SizedBox(width: 10,),
+                                grids[6],
+                              ],
+                            ),
+                          ),
+                        ),
+                        
+                        (displayIndex == 0 && grocerylist.recentlyUsed.isEmpty) ?
+                        Padding(
+                          padding: const EdgeInsets.only(top: 100.0),
+                          child: Text("No recent items", style: TextStyle(fontFamily: "MavenPro", fontSize: 25, color: Colors.grey[700]),),
+                        ) :
+                        gridFormation(cats[displayIndex]),
+                        SizedBox(height: 50),
+                      
+
+                      ],
+                    )
+                  ),
+                ),
+              ],
+            ),
           ),
-        ),
+      ),
     );
   }
 }

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:leeks/Widgets/Tiles.dart';
 import 'constants.dart';
@@ -13,13 +14,29 @@ class groceryList extends ChangeNotifier {
   List<Tile> _filteredTiles = [];
   List<Tile> _allTiles = allItems;
 
+  int _colorIndex = 0;
+
+  bool _details = false;
+  Tile curr;
+
   List<Tile> get inList => _inList;
   List<String> get imgList => _imgList;
   List<Tile> get recentlyUsed => _recentlyUsed;
   List<String> get recentlyUsedimg => _recentlyUsedimg;
   List<Tile> get filteredTiles => _filteredTiles;
   List<Tile> get allTiles => _allTiles;
+  int get colorIndex => _colorIndex;
+  bool get details => _details;
 
+  detailsChange(bool b) {
+    _details = b;
+    notifyListeners();
+  }
+
+  changeCol(int i) {
+    _colorIndex = i;
+    notifyListeners();
+  }
 
   add(Tile t) {
     if (_recentlyUsedimg.contains(t.img)) {
@@ -52,8 +69,8 @@ class groceryList extends ChangeNotifier {
       _recentlyUsedimg.removeAt(index);
     }
     if (_recentlyUsed.length == maxRecentItems) {
-      _recentlyUsed.removeAt(maxRecentItems - 1);
-      _recentlyUsedimg.removeAt(maxRecentItems - 1);
+      _recentlyUsed.removeAt(_recentlyUsed.length - 1);
+      _recentlyUsedimg.removeAt(_recentlyUsed.length - 1);
     }
     _recentlyUsed.insert(0, t);
     _recentlyUsedimg.insert(0, t.img);
@@ -65,5 +82,11 @@ class groceryList extends ChangeNotifier {
     _filteredTiles = list;
     notifyListeners();
   }
+
+  addDetail(Tile t) {
+    curr = t;
+    notifyListeners();
+  }
+
 
 }

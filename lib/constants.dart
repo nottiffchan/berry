@@ -1,23 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:leeks/Widgets/Tiles.dart';
 
-Color navy = Color(0xFF263857);
-Color navyAccent = Color(0xff566c91);
-Color grey = Color(0xFFb3afaf);
-Color red = Color(0xffe66e63);
-Color berryRed = Color(0xffcf432d);
 
-Color tileGrey = Color(0xff8b99b0);
-// Color tileRed = Color(0xfff77561);
-// Color tileRed = Color(0xffc8e079);
-Color tileRed = Color(0xffed806f);
 
 Color themePurple = Color(0xff9179e0);
 Color duskyPurple = Color(0xffdbd2f7);
+Color themeRed = Color(0xfff26b57);
+Color duskyRed = Color(0xfff8b1a6);
+
+List<Color> unselectedCat = [duskyRed, duskyPurple];
+List<Color> selectedCat = [themeRed, themePurple];
+List<Color> appBar = [themeRed, themePurple];
+List<Color> bg = [Colors.white, Colors.white, Colors.grey[700]];
+Color tileOff = Colors.grey[200];
+Color tileOn = Color(0xfff69a8c);
+
 
 var fruitsVegetables = <Tile>[
   new Tile(("assets/banana.png"), 'Banana'),
-  new Tile(("assets/broccoli.png"), 'Broccoli'),
+  new Tile(("assets/broccoli.png"), 'Broccoli', details: "hahha",),
   new Tile('assets/cauliflower.png', 'Cauliflower'),
   new Tile('assets/carrot.png', 'Carrot'),
   new Tile('assets/coconut.png', 'Coconut'),
