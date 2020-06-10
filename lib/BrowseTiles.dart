@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class BrowseTiles extends StatefulWidget {
+
   @override
   _BrowseTilesState createState() => _BrowseTilesState();
 }
@@ -14,11 +15,11 @@ class BrowseTiles extends StatefulWidget {
 class _BrowseTilesState extends State<BrowseTiles> {
   int displayIndex = 0;
   static int colorIndex = 0;
-  // var catColors;
   var catColors = [selectedCat[colorIndex], unselectedCat[colorIndex], unselectedCat[colorIndex], unselectedCat[colorIndex], unselectedCat[colorIndex], unselectedCat[colorIndex], unselectedCat[colorIndex]];
   FocusNode _focus = new FocusNode();
   bool isSearching = false;
   TextEditingController searchController = new TextEditingController();
+  TextEditingController detailController = new TextEditingController();
 
   @override
   void initState() {
@@ -26,6 +27,10 @@ class _BrowseTilesState extends State<BrowseTiles> {
     searchController.addListener(() {
       filterTiles();
     });
+    detailController.addListener(() {
+      // print(detailController.text);
+      addDetail();
+    }); 
     _focus.addListener(onFocusChange);
   }
 
@@ -40,6 +45,11 @@ class _BrowseTilesState extends State<BrowseTiles> {
         searchController.text = '';
         isSearching = !isSearching;
     });
+  }
+  
+  addDetail() {
+    final groceryList grocerylist = Provider.of<groceryList>(context);
+    grocerylist.addDetail(detailController.text);
   }
 
   filterTiles() {
@@ -85,7 +95,8 @@ class _BrowseTilesState extends State<BrowseTiles> {
           child: Tile(
             list[index].img, 
             list[index].name,
-            details: list[index].details == null ? null : list[index].details,
+            // details: list[index].details == "" ? "" : 
+            details: list[index].details,
 
           )
         );
@@ -130,6 +141,8 @@ class _BrowseTilesState extends State<BrowseTiles> {
 
   Widget createDetails() {
     final groceryList grocerylist = Provider.of<groceryList>(context);
+    var cats = [grocerylist.recentlyUsed ,fruitsVegetables, meatFish, dairy, dryGoods, snacksSweets, beverages];
+
 
     return Container(
         padding: EdgeInsets.all(8),
@@ -140,8 +153,10 @@ class _BrowseTilesState extends State<BrowseTiles> {
             SizedBox(height: 30),
             Container(
               height: 150,
+              // height: 400,
               child: CupertinoTextField(
-                onChanged: (text) { grocerylist.curr.details = text;},
+                controller: detailController,
+                // onChanged: (text) { grocerylist.addDetail(text);},
                 padding: const EdgeInsets.symmetric(vertical: 12),
                 keyboardType: TextInputType.text,
                 placeholder: "Quantity, description...",
@@ -159,6 +174,21 @@ class _BrowseTilesState extends State<BrowseTiles> {
                 color: Colors.grey[200],
               ),
               ),
+            ),
+            FlatButton(
+              child: Text("upd8"),
+              onPressed: () {
+                // print(detailController.text);
+                for (int i = 1; i < 6; i++) {
+                  for (int j = 0 ; j < cats[i].length; j++) {
+                    if (cats[i][j].img == grocerylist.curr.img) {
+                      cats[i][j].details = detailController.text;
+                      detailController.text = "";
+                      break;
+                    }
+                  }
+                }
+              },
             ),
           ],
         ),
@@ -187,7 +217,8 @@ class _BrowseTilesState extends State<BrowseTiles> {
 
     return SlidingUpPanel(
       minHeight: grocerylist.details ? 40 : 0,
-      maxHeight: 300,
+      // maxHeight: 300,
+      maxHeight: 350,
       margin: EdgeInsets.symmetric(horizontal: 20),
       padding: EdgeInsets.symmetric(horizontal: 10),
       borderRadius: radius,
@@ -301,7 +332,7 @@ class _BrowseTilesState extends State<BrowseTiles> {
                           child: Text("No recent items", style: TextStyle(fontFamily: "MavenPro", fontSize: 25, color: Colors.grey[700]),),
                         ) :
                         gridFormation(cats[displayIndex]),
-                        SizedBox(height: 50),
+                        SizedBox(height: 200),
                       
 
                       ],

@@ -10,7 +10,7 @@ class Tile extends StatefulWidget {
   final FocusNode fNode;
   String details;
 
-  Tile(this.img, this.name, {this.details, this.focus, this.fNode});
+  Tile(this.img, this.name, {this.details = "‏‏‎　", this.focus, this.fNode});
 
   @override
   TileState createState() => TileState();
@@ -68,14 +68,20 @@ class TileState extends State<Tile> with TickerProviderStateMixin {
                           color: grocerylist.imgList.contains(t.img) ? Colors.white : Colors.grey[600],
                           )
                       ),
-                      widget.details == null ?
-                      Text("") :
                       Text(widget.details, style: TextStyle(
                           fontFamily: "MavenPro",
                           fontSize: 16,
                           color: grocerylist.imgList.contains(t.img) ? Colors.white : Colors.grey[600],
                           )
                       ),
+                      // widget.details == null ?
+                      // Text("") :
+                      // Text(grocerylist.curr.details, style: TextStyle(
+                      //     fontFamily: "MavenPro",
+                      //     fontSize: 16,
+                      //     color: grocerylist.imgList.contains(t.img) ? Colors.white : Colors.grey[600],
+                      //     )
+                      // ),
                     ],
                   ),
                 ),
@@ -94,10 +100,10 @@ class TileState extends State<Tile> with TickerProviderStateMixin {
               
             } else {
               grocerylist.detailsChange(true);
-              grocerylist.addDetail(t);
-              t.details = grocerylist.curr.details;
-              print(grocerylist.curr.details);
+              grocerylist.addCurrTile(t);
+              // t.details = grocerylist.curr.details;
               grocerylist.add(t);
+              // print(t.details);
             }
             
           });

@@ -18,7 +18,7 @@ Color tileOn = Color(0xfff69a8c);
 
 var fruitsVegetables = <Tile>[
   new Tile(("assets/banana.png"), 'Banana'),
-  new Tile(("assets/broccoli.png"), 'Broccoli', details: "hahha",),
+  new Tile(("assets/broccoli.png"), 'Broccoli'),
   new Tile('assets/cauliflower.png', 'Cauliflower'),
   new Tile('assets/carrot.png', 'Carrot'),
   new Tile('assets/coconut.png', 'Coconut'),

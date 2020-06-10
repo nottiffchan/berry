@@ -17,7 +17,8 @@ class groceryList extends ChangeNotifier {
   int _colorIndex = 0;
 
   bool _details = false;
-  Tile curr;
+  Tile _curr;
+
 
   List<Tile> get inList => _inList;
   List<String> get imgList => _imgList;
@@ -27,9 +28,21 @@ class groceryList extends ChangeNotifier {
   List<Tile> get allTiles => _allTiles;
   int get colorIndex => _colorIndex;
   bool get details => _details;
+  Tile get curr => _curr;
+
 
   detailsChange(bool b) {
     _details = b;
+    notifyListeners();
+  }
+
+  addCurrTile(Tile t) {
+    _curr = t;
+    notifyListeners();
+  }
+
+  addDetail(String text) {
+    _curr.details = text;
     notifyListeners();
   }
 
@@ -83,10 +96,7 @@ class groceryList extends ChangeNotifier {
     notifyListeners();
   }
 
-  addDetail(Tile t) {
-    curr = t;
-    notifyListeners();
-  }
+
 
 
 }

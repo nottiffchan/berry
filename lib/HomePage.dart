@@ -35,7 +35,8 @@ class HomePageState extends State<HomePage> {
           child: Tile(
             list[index].img, 
             list[index].name,
-            details: list[index].details == null ? null : list[index].details,
+            // details: list[index].details == null ? null : list[index].details,
+            details: list[index].details,
           )
         );
       },
