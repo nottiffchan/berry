@@ -29,7 +29,7 @@ class HomePageState extends State<HomePage> {
       padding: const EdgeInsets.all(6),
       crossAxisSpacing: 6,
       mainAxisSpacing: 6,
-      childAspectRatio: 1,
+      childAspectRatio: 0.89,
       children: List.generate(list.length, (index) {
         return GridTile(
           child: Tile(

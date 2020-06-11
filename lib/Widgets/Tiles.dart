@@ -5,12 +5,15 @@ import 'package:leeks/groceryList.dart';
 import 'package:provider/provider.dart';
 
 class Tile extends StatefulWidget {
-  final String img, name;
-  final VoidCallback focus;
-  final FocusNode fNode;
+  final String name;
+  String img;
+  VoidCallback focus;
+  FocusNode fNode;
   String details;
 
-  Tile(this.img, this.name, {this.details = "‏‏‎　", this.focus, this.fNode});
+  Tile(this.img, this.name, {this.details = "‏‏‎ ", this.focus, this.fNode});
+
+  Tile.noSuchItemConstructor(this.name, {this.details});
 
   @override
   TileState createState() => TileState();
@@ -51,7 +54,7 @@ class TileState extends State<Tile> with TickerProviderStateMixin {
               children: <Widget>[
                 Container(
                   padding: EdgeInsets.only(top: 15, bottom: 15),
-                  child: Image.asset(widget.img),
+                  child: widget.img == "proxy" ? Text(widget.name[0]) : Image.asset(widget.img),
                   width: MediaQuery.of(context).size.width * 0.17,
                 ),
 
@@ -101,9 +104,7 @@ class TileState extends State<Tile> with TickerProviderStateMixin {
             } else {
               grocerylist.detailsChange(true);
               grocerylist.addCurrTile(t);
-              // t.details = grocerylist.curr.details;
               grocerylist.add(t);
-              // print(t.details);
             }
             
           });

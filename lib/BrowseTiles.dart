@@ -65,6 +65,10 @@ class _BrowseTilesState extends State<BrowseTiles> {
       });
 
       setState(() {
+        if (_tiles.isEmpty) {
+          Tile t = new Tile("proxy" ,searchController.text); 
+          _tiles.add(t);
+        }
         grocerylist.filterTiles(_tiles);
       });
     }
@@ -89,7 +93,7 @@ class _BrowseTilesState extends State<BrowseTiles> {
       padding: const EdgeInsets.all(6),
       crossAxisSpacing: 6,
       mainAxisSpacing: 6,
-      childAspectRatio: 0.9,
+      childAspectRatio: 0.89,
       children: List.generate(list.length, (index) {
         return GridTile(
           child: Tile(
@@ -141,7 +145,7 @@ class _BrowseTilesState extends State<BrowseTiles> {
 
   Widget createDetails() {
     final groceryList grocerylist = Provider.of<groceryList>(context);
-    var cats = [grocerylist.recentlyUsed ,fruitsVegetables, meatFish, dairy, dryGoods, snacksSweets, beverages];
+      var cats = [grocerylist.recentlyUsed, fruitsVegetables, meatFish, dairy, dryGoods, snacksSweets, beverages];
 
 
     return Container(
@@ -156,7 +160,6 @@ class _BrowseTilesState extends State<BrowseTiles> {
               // height: 400,
               child: CupertinoTextField(
                 controller: detailController,
-                // onChanged: (text) { grocerylist.addDetail(text);},
                 padding: const EdgeInsets.symmetric(vertical: 12),
                 keyboardType: TextInputType.text,
                 placeholder: "Quantity, description...",
@@ -178,15 +181,23 @@ class _BrowseTilesState extends State<BrowseTiles> {
             FlatButton(
               child: Text("upd8"),
               onPressed: () {
-                // print(detailController.text);
                 for (int i = 1; i < 6; i++) {
                   for (int j = 0 ; j < cats[i].length; j++) {
                     if (cats[i][j].img == grocerylist.curr.img) {
                       cats[i][j].details = detailController.text;
-                      detailController.text = "";
+                      // detailController.text = "";
                       break;
                     }
                   }
+                }
+                if (grocerylist.imgList.contains(grocerylist.curr.img)) {
+                  for (int i = 0 ; i < grocerylist.imgList.length; i++) {
+                    if (grocerylist.curr.img == grocerylist.imgList[i]) {
+                      grocerylist.inList[i].details = "LOL";
+                    }
+                  }
+                  // grocerylist.addDetailToBasketTile(detailController.text);
+                  detailController.text = '';
                 }
               },
             ),

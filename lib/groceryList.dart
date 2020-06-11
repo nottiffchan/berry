@@ -19,6 +19,8 @@ class groceryList extends ChangeNotifier {
   bool _details = false;
   Tile _curr;
 
+  // var _cats = [[], fruitsVegetables, meatFish, dairy, dryGoods, snacksSweets, beverages];
+
 
   List<Tile> get inList => _inList;
   List<String> get imgList => _imgList;
@@ -29,6 +31,7 @@ class groceryList extends ChangeNotifier {
   int get colorIndex => _colorIndex;
   bool get details => _details;
   Tile get curr => _curr;
+  // List<List<Tile>> get cats => _cats;
 
 
   detailsChange(bool b) {
@@ -43,6 +46,12 @@ class groceryList extends ChangeNotifier {
 
   addDetail(String text) {
     _curr.details = text;
+    notifyListeners();
+  }
+
+  addDetailToBasketTile(String text) {
+    int index = _imgList.indexOf(_curr.img);
+    _inList[index].details = text;
     notifyListeners();
   }
 
@@ -91,12 +100,10 @@ class groceryList extends ChangeNotifier {
     notifyListeners();
   }
 
-  filterTiles(List<Tile> list) {
+  filterTiles(List<Tile> list) {  
     _filteredTiles = list;
     notifyListeners();
   }
-
-
 
 
 }

@@ -39,7 +39,6 @@ var meatFish = <Tile>[
   new Tile(("assets/meat.png"), 'Beef'),
   new Tile(("assets/chicken.png"), 'Chicken'),
   new Tile('assets/crab.png', 'Crab'),
-  new Tile(("assets/eggs.png"), 'Eggs'),
   new Tile(("assets/fish.png"), 'Fish'),
   new Tile(("assets/lobster.png"), 'Lobster'),
   new Tile("assets/pork.png", "Pork"),
@@ -50,6 +49,7 @@ var meatFish = <Tile>[
 var dairy = <Tile>[
   new Tile(("assets/butter.png"), 'Butter'),
   new Tile(("assets/cheese.png"), 'Cheese'),
+  new Tile(("assets/eggs.png"), 'Eggs'),
   new Tile(("assets/milk.png"), 'Milk'),
   new Tile('assets/yogurt.png', 'Yoghurt'),
 ];
