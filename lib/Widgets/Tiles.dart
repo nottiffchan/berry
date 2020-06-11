@@ -46,7 +46,7 @@ class TileState extends State<Tile> with TickerProviderStateMixin {
         child: FadeTransition(opacity: animation,
           child: Container(
             decoration: BoxDecoration(
-            color: grocerylist.imgList.contains(t.img) ? tileOn : tileOff,
+            color: grocerylist.imgList.contains(t.name) ? tileOn : tileOff,
             borderRadius: BorderRadius.circular(20),
             ),
             child: Stack(
@@ -54,7 +54,12 @@ class TileState extends State<Tile> with TickerProviderStateMixin {
               children: <Widget>[
                 Container(
                   padding: EdgeInsets.only(top: 15, bottom: 15),
-                  child: widget.img == "proxy" ? Text(widget.name[0]) : Image.asset(widget.img),
+                  child: widget.img == "proxy" ? 
+                    Padding(
+                      padding: const EdgeInsets.only(left: 17),
+                      child: Text(widget.name[0].toLowerCase(), style: TextStyle(fontFamily: "FredokaOne", fontSize: 60, color: Colors.grey[800])),
+                    ) : 
+                    Image.asset(widget.img),
                   width: MediaQuery.of(context).size.width * 0.17,
                 ),
 
@@ -68,23 +73,15 @@ class TileState extends State<Tile> with TickerProviderStateMixin {
                           fontFamily: "MavenPro",
                           fontWeight: FontWeight.w600,
                           fontSize: 19,
-                          color: grocerylist.imgList.contains(t.img) ? Colors.white : Colors.grey[600],
+                          color: grocerylist.imgList.contains(t.name) ? Colors.white : Colors.grey[600],
                           )
                       ),
                       Text(widget.details, style: TextStyle(
                           fontFamily: "MavenPro",
                           fontSize: 16,
-                          color: grocerylist.imgList.contains(t.img) ? Colors.white : Colors.grey[600],
+                          color: grocerylist.imgList.contains(t.name) ? Colors.white : Colors.grey[600],
                           )
                       ),
-                      // widget.details == null ?
-                      // Text("") :
-                      // Text(grocerylist.curr.details, style: TextStyle(
-                      //     fontFamily: "MavenPro",
-                      //     fontSize: 16,
-                      //     color: grocerylist.imgList.contains(t.img) ? Colors.white : Colors.grey[600],
-                      //     )
-                      // ),
                     ],
                   ),
                 ),
@@ -96,7 +93,20 @@ class TileState extends State<Tile> with TickerProviderStateMixin {
 
         onTap: () {
           setState(() {
-            if (grocerylist.imgList.contains(t.img)) {
+            // for (int i = 0; i < grocerylist.inList.length; i++) {
+            //   if (grocerylist.inList[i].name == t.name) {
+            //     grocerylist.detailsChange(false);
+            //     grocerylist.remove(t);
+            //     grocerylist.recentAdd(t);
+            //     break;
+            //   }
+            //   if ((i == grocerylist.inList.length - 1) && grocerylist.inList[i].name != t.name) {
+            //     grocerylist.detailsChange(true);
+            //     grocerylist.addCurrTile(t);
+            //     grocerylist.add(t);
+            //   }
+            // }
+            if (grocerylist.imgList.contains(t.name)) {
               grocerylist.detailsChange(false);
               grocerylist.remove(t);
               grocerylist.recentAdd(t);

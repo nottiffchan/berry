@@ -190,7 +190,7 @@ class _BrowseTilesState extends State<BrowseTiles> {
                     }
                   }
                 }
-                if (grocerylist.imgList.contains(grocerylist.curr.img)) {
+                if (grocerylist.imgList.contains(grocerylist.curr.name)) {
                   for (int i = 0 ; i < grocerylist.imgList.length; i++) {
                     if (grocerylist.curr.img == grocerylist.imgList[i]) {
                       grocerylist.inList[i].details = "LOL";
