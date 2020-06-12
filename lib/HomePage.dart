@@ -2,7 +2,6 @@ import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:leeks/BrowseTiles.dart';
-import 'package:leeks/ListofLists.dart';
 import 'package:leeks/RecipePage.dart';
 import 'package:leeks/groceryList.dart';
 import 'package:leeks/my_flutter_app_icons.dart';
