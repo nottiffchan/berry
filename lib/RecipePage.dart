@@ -57,9 +57,10 @@ class _RecipePageState extends State<RecipePage> {
   @override
   Widget build(BuildContext context) {
     final groceryList grocerylist = Provider.of<groceryList>(context);   
+    int colorIndex = grocerylist.colorIndex;
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: bg[colorIndex],
       
       body: SingleChildScrollView(
         child: Container(
@@ -69,11 +70,11 @@ class _RecipePageState extends State<RecipePage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  Text("My Recipes", style: TextStyle(fontFamily: "MavenPro", fontSize: 28), textAlign: TextAlign.start,),
+                  Text("My Recipes", style: TextStyle(fontFamily: "MavenPro", fontSize: 28, color: words[colorIndex]), textAlign: TextAlign.start,),
                   FlatButton.icon(
-                    icon: Icon(Icons.add, color: themeRed,), 
+                    icon: Icon(Icons.add, color: navBarText[colorIndex],), 
                     onPressed: () {}, 
-                    label: Text("Add New", style: TextStyle(fontFamily: "MavenPro", color: themeRed, fontSize: 18, fontWeight: FontWeight.bold),))
+                    label: Text("Add New", style: TextStyle(fontFamily: "MavenPro", color: navBarText[colorIndex], fontSize: 18, fontWeight: FontWeight.bold),))
                 ],
               ),
               SizedBox(height: 10,),
