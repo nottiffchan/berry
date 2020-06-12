@@ -45,7 +45,12 @@ class groceryList extends ChangeNotifier {
   }
 
   addDetail(String text) {
-    _curr.details = text;
+    int index = _inList.length - 1;
+    Tile temp = _inList[index];
+    Tile t = new Tile(temp.img, temp.name, details: text,);
+    _inList.removeLast();
+    _inList.add(t);
+    // _curr.details = text;
     notifyListeners();
   }
 

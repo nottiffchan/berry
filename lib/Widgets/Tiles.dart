@@ -10,10 +10,9 @@ class Tile extends StatefulWidget {
   VoidCallback focus;
   FocusNode fNode;
   String details;
+  bool smaller;
 
-  Tile(this.img, this.name, {this.details = "‏‏‎ ", this.focus, this.fNode});
-
-  Tile.noSuchItemConstructor(this.name, {this.details});
+  Tile(this.img, this.name, {this.details = "‏‏‎ ", this.focus, this.fNode, this.smaller = false});
 
   @override
   TileState createState() => TileState();
@@ -46,8 +45,8 @@ class TileState extends State<Tile> with TickerProviderStateMixin {
         child: FadeTransition(opacity: animation,
           child: Container(
             decoration: BoxDecoration(
-            color: grocerylist.imgList.contains(t.name) ? tileOn : tileOff,
-            borderRadius: BorderRadius.circular(20),
+              color: grocerylist.imgList.contains(t.name) ? tileOn : tileOff,
+              borderRadius: BorderRadius.circular(20),
             ),
             child: Stack(
               alignment: Alignment.topCenter,
@@ -55,16 +54,15 @@ class TileState extends State<Tile> with TickerProviderStateMixin {
                 Container(
                   padding: EdgeInsets.only(top: 15, bottom: 15),
                   child: widget.img == "proxy" ? 
-                    Padding(
-                      padding: const EdgeInsets.only(left: 17),
-                      child: Text(widget.name[0].toLowerCase(), style: TextStyle(fontFamily: "FredokaOne", fontSize: 60, color: Colors.grey[800])),
-                    ) : 
+                    Column(children: <Widget>[
+                      Text(widget.name[0].toLowerCase(), style: TextStyle(fontFamily: "FredokaOne", fontSize: 60, color: Colors.grey[800])),
+                    ],) :
                     Image.asset(widget.img),
-                  width: MediaQuery.of(context).size.width * 0.17,
+                  width: widget.smaller ? MediaQuery.of(context).size.width * 0.13 : MediaQuery.of(context).size.width * 0.17,
                 ),
 
                 Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  padding: const EdgeInsets.symmetric(vertical: 4),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: <Widget>[
@@ -72,7 +70,7 @@ class TileState extends State<Tile> with TickerProviderStateMixin {
                         widget.name, style: TextStyle(
                           fontFamily: "MavenPro",
                           fontWeight: FontWeight.w600,
-                          fontSize: 19,
+                          fontSize: widget.smaller ? 17 : 19,
                           color: grocerylist.imgList.contains(t.name) ? Colors.white : Colors.grey[600],
                           )
                       ),
@@ -93,19 +91,6 @@ class TileState extends State<Tile> with TickerProviderStateMixin {
 
         onTap: () {
           setState(() {
-            // for (int i = 0; i < grocerylist.inList.length; i++) {
-            //   if (grocerylist.inList[i].name == t.name) {
-            //     grocerylist.detailsChange(false);
-            //     grocerylist.remove(t);
-            //     grocerylist.recentAdd(t);
-            //     break;
-            //   }
-            //   if ((i == grocerylist.inList.length - 1) && grocerylist.inList[i].name != t.name) {
-            //     grocerylist.detailsChange(true);
-            //     grocerylist.addCurrTile(t);
-            //     grocerylist.add(t);
-            //   }
-            // }
             if (grocerylist.imgList.contains(t.name)) {
               grocerylist.detailsChange(false);
               grocerylist.remove(t);

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:leeks/HomePage.dart';
 import 'package:leeks/Widgets/Tiles.dart';
 import 'package:leeks/constants.dart';
 import 'package:leeks/groceryList.dart';
@@ -27,8 +28,8 @@ class _BrowseTilesState extends State<BrowseTiles> {
     searchController.addListener(() {
       filterTiles();
     });
+
     detailController.addListener(() {
-      // print(detailController.text);
       addDetail();
     }); 
     _focus.addListener(onFocusChange);
@@ -50,6 +51,7 @@ class _BrowseTilesState extends State<BrowseTiles> {
   addDetail() {
     final groceryList grocerylist = Provider.of<groceryList>(context);
     grocerylist.addDetail(detailController.text);
+  
   }
 
   filterTiles() {
@@ -66,7 +68,7 @@ class _BrowseTilesState extends State<BrowseTiles> {
 
       setState(() {
         if (_tiles.isEmpty) {
-          Tile t = new Tile("proxy" ,searchController.text); 
+          Tile t = new Tile("proxy", searchController.text); 
           _tiles.add(t);
         }
         grocerylist.filterTiles(_tiles);
@@ -99,7 +101,6 @@ class _BrowseTilesState extends State<BrowseTiles> {
           child: Tile(
             list[index].img, 
             list[index].name,
-            // details: list[index].details == "" ? "" : 
             details: list[index].details,
 
           )
@@ -112,7 +113,11 @@ class _BrowseTilesState extends State<BrowseTiles> {
   Widget catTile(String name, String img, int index) {
     final groceryList grocerylist = Provider.of<groceryList>(context);
     int colorIndex = grocerylist.colorIndex;
-    // var catColors = [selectedCat[colorIndex], unselectedCat[colorIndex], unselectedCat[colorIndex], unselectedCat[colorIndex], unselectedCat[colorIndex], unselectedCat[colorIndex], unselectedCat[colorIndex]];
+
+    for (int i = 0; i < catColors.length; i++) {
+      catColors[i] = unselectedCat[colorIndex];
+    }
+    catColors[displayIndex] = selectedCat[colorIndex];
 
     return InkWell(
       splashColor: Colors.transparent,
@@ -136,7 +141,7 @@ class _BrowseTilesState extends State<BrowseTiles> {
             ),
           ),
           SizedBox(height: 10),
-          Text(name, style: TextStyle(fontFamily: "MavenPro", fontSize: 17, fontWeight: FontWeight.bold, color: Colors.grey[700]),),
+          Text(name, style: TextStyle(fontFamily: "MavenPro", fontSize: 17, fontWeight: FontWeight.bold, color: words[colorIndex]),),
           SizedBox(height: 10),
         ],
       ),
@@ -147,17 +152,16 @@ class _BrowseTilesState extends State<BrowseTiles> {
     final groceryList grocerylist = Provider.of<groceryList>(context);
       var cats = [grocerylist.recentlyUsed, fruitsVegetables, meatFish, dairy, dryGoods, snacksSweets, beverages];
 
-
     return Container(
+        color: bg[grocerylist.colorIndex],
         padding: EdgeInsets.all(8),
         child: Column(
           children: <Widget>[
             SizedBox(height: 40),
-            Text(grocerylist.curr.name, style: TextStyle(fontFamily: "MavenPro", fontWeight: FontWeight.bold, fontSize: 25),),
+            Text(grocerylist.curr.name, style: TextStyle(fontFamily: "MavenPro", fontWeight: FontWeight.bold, fontSize: 25, color: words[grocerylist.colorIndex]),),
             SizedBox(height: 30),
             Container(
-              height: 150,
-              // height: 400,
+              height: 100,
               child: CupertinoTextField(
                 controller: detailController,
                 padding: const EdgeInsets.symmetric(vertical: 12),
@@ -172,34 +176,25 @@ class _BrowseTilesState extends State<BrowseTiles> {
                   padding: const EdgeInsets.all(8.0),
                   child: Icon(Icons.create, color: Colors.grey[600]),
                 ),     
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(30),
-                color: Colors.grey[200],
-              ),
-              ),
-            ),
-            FlatButton(
-              child: Text("upd8"),
-              onPressed: () {
-                for (int i = 1; i < 6; i++) {
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(30),
+                  color: Colors.grey[200],
+                ),
+                onSubmitted: (text) {
+                  for (int i = 1; i < 6; i++) {
                   for (int j = 0 ; j < cats[i].length; j++) {
                     if (cats[i][j].img == grocerylist.curr.img) {
-                      cats[i][j].details = detailController.text;
-                      // detailController.text = "";
+                      cats[i][j].details = text;
+                      detailController.text = '';
+                      setState(() {
+                        grocerylist.addDetail(detailController.text);
+                      });
                       break;
                     }
                   }
                 }
-                if (grocerylist.imgList.contains(grocerylist.curr.name)) {
-                  for (int i = 0 ; i < grocerylist.imgList.length; i++) {
-                    if (grocerylist.curr.img == grocerylist.imgList[i]) {
-                      grocerylist.inList[i].details = "LOL";
-                    }
-                  }
-                  // grocerylist.addDetailToBasketTile(detailController.text);
-                  detailController.text = '';
-                }
-              },
+                },
+              ),
             ),
           ],
         ),
@@ -222,33 +217,34 @@ class _BrowseTilesState extends State<BrowseTiles> {
     ];
 
     BorderRadiusGeometry radius = BorderRadius.only(
-      topLeft: Radius.circular(24.0),
-      topRight: Radius.circular(24.0),
+      topLeft: Radius.circular(15.0),
+      topRight: Radius.circular(15.0), 
     );
 
     return SlidingUpPanel(
+      color: bg[grocerylist.colorIndex],
       minHeight: grocerylist.details ? 40 : 0,
-      // maxHeight: 300,
-      maxHeight: 350,
+      maxHeight: 250,
       margin: EdgeInsets.symmetric(horizontal: 20),
       padding: EdgeInsets.symmetric(horizontal: 10),
       borderRadius: radius,
       panel: grocerylist.curr == null ? Text("") : createDetails(),
       collapsed: Container(
         decoration: BoxDecoration(
+          color: bg[grocerylist.colorIndex],
           borderRadius: radius,
         ),
         child: Center(
           child: Text(
             "Add details",
-            style: TextStyle(color: Colors.grey[700], fontFamily: "MavenPro", fontSize: 20),
+            style: TextStyle(color: words[grocerylist.colorIndex], fontFamily: "MavenPro", fontSize: 20),
           ),
         ),
       ),
 
 
           body: Scaffold(
-          backgroundColor: Colors.white,
+          backgroundColor: bg[grocerylist.colorIndex],
 
 // BODY
           body: SingleChildScrollView(
@@ -340,7 +336,7 @@ class _BrowseTilesState extends State<BrowseTiles> {
                         (displayIndex == 0 && grocerylist.recentlyUsed.isEmpty) ?
                         Padding(
                           padding: const EdgeInsets.only(top: 100.0),
-                          child: Text("No recent items", style: TextStyle(fontFamily: "MavenPro", fontSize: 25, color: Colors.grey[700]),),
+                          child: Text("No recent items", style: TextStyle(fontFamily: "MavenPro", fontSize: 25, color: words[grocerylist.colorIndex]),),
                         ) :
                         gridFormation(cats[displayIndex]),
                         SizedBox(height: 200),

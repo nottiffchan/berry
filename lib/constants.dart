@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:leeks/Recipe.dart';
 import 'package:leeks/Widgets/Tiles.dart';
 
 
@@ -8,12 +9,38 @@ Color duskyPurple = Color(0xffdbd2f7);
 Color themeRed = Color(0xfff26b57);
 Color duskyRed = Color(0xfff8b1a6);
 
-List<Color> unselectedCat = [duskyRed, duskyPurple];
-List<Color> selectedCat = [themeRed, themePurple];
-List<Color> appBar = [themeRed, themePurple];
-List<Color> bg = [Colors.white, Colors.white, Colors.grey[700]];
+List<Color> unselectedCat = [duskyRed, duskyPurple, Colors.grey[400]];
+List<Color> selectedCat = [themeRed, themePurple, Colors.grey[700]];
+List<Color> appBar = [themeRed, themePurple, Colors.grey[800]];
+List<Color> bg = [Colors.white, Colors.white, Colors.grey[850]];
+List<Color> words = [Colors.grey[700], Colors.grey[700], Colors.grey[50]];
+List<Color> navBarText = [themeRed, themePurple, Colors.white];
+List<Color> navActive = [themeRed, themePurple, Colors.grey[100]];
 Color tileOff = Colors.grey[200];
 Color tileOn = Color(0xfff69a8c);
+
+List<Tile> cheesyPastaIngredients = [
+  Tile("proxy", "Olive Oil", details: "4 tbsp", smaller: true,),
+  Tile("assets/meat.png", "Beef", details: "lean, ground", smaller: true,),
+  Tile("assets/tomato.png", "Tomato", details: "pureed", smaller: true,),
+  Tile("proxy", "Basil", smaller: true,),
+  Tile("assets/cheese.png", "Cheese", details: "mozzarella", smaller: true,),
+];
+
+List<Tile> vanillaMuffinIngredients = [
+  Tile("assets/flour.png", "Flour", details: "4 cups", smaller: true,),
+  Tile("assets/milk.png", "Milk", details: "2 cups", smaller: true,),
+  Tile("proxy", "Sugar", details: "2 cups", smaller: true,),
+  Tile("assets/eggs.png", "Eggs", details: "2 large", smaller: true,)
+];
+
+List<Recipe> recipeList = [
+  new Recipe("Fudge Brownies", description: "Fudgey and moist", ingredients: dairy, image: Image.asset("assets/brownies.jpeg", height: 150, fit: BoxFit.cover),),
+  new Recipe("Vanilla Muffins", description: "beautiful, 10/10", ingredients: vanillaMuffinIngredients, image: Image.asset("assets/vanillamuffins.jpg", height: 150, fit: BoxFit.cover)),
+  new Recipe("Cheese Baked Pasta", description: "peterson's favorite!", ingredients: cheesyPastaIngredients, image: Image.asset("assets/cheeseypasta.jpg", height: 150, fit: BoxFit.cover)),
+  new Recipe("Charred Lemon Chicken", description: "Easy 5min", ingredients: dairy, image: Image.asset("assets/lemonchicken.jpg", height: 150, fit: BoxFit.cover))
+
+];
 
 
 var fruitsVegetables = <Tile>[
@@ -86,3 +113,5 @@ var snacksSweets = <Tile>[
 
 var allItems =
     fruitsVegetables + meatFish + dairy + dryGoods + snacksSweets + beverages;
+
+

@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:leeks/BrowseTiles.dart';
 import 'package:leeks/ListofLists.dart';
+import 'package:leeks/RecipePage.dart';
 import 'package:leeks/groceryList.dart';
 import 'package:leeks/my_flutter_app_icons.dart';
 import 'package:provider/provider.dart';
@@ -35,7 +36,6 @@ class HomePageState extends State<HomePage> {
           child: Tile(
             list[index].img, 
             list[index].name,
-            // details: list[index].details == null ? null : list[index].details,
             details: list[index].details,
           )
         );
@@ -67,7 +67,7 @@ class HomePageState extends State<HomePage> {
           Row(children: <Widget> [
             Container(
               padding: EdgeInsets.only(right: 30),
-              child: Text("Themes >", style: TextStyle(fontFamily: "MavenPro", fontSize: 20))
+              child: Text("Themes >", style: TextStyle(fontFamily: "MavenPro", fontSize: 20, color: words[grocerylist.colorIndex]))
             ),
             InkWell(
               onTap: () {
@@ -99,13 +99,29 @@ class HomePageState extends State<HomePage> {
                   color: themePurple,
                 ),
               ),
+            ),
+            SizedBox(width: 20),
+            InkWell(
+              onTap: () {
+                setState(() {
+                  grocerylist.changeCol(2);
+                });
+              },
+              child: Container(
+                width: 40.0,
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(80),
+                  color: Colors.grey[500],
+                ),
+              ),
             )
           ]
             ),
             SizedBox(height: 20,),
             Container(
                   padding: EdgeInsets.only(right: 30),
-                  child: Text("Number of recent items >", style: TextStyle(fontFamily: "MavenPro", fontSize: 20))
+                  child: Text("Number of recent items >", style: TextStyle(fontFamily: "MavenPro", fontSize: 20, color: words[grocerylist.colorIndex]))
                 ),
             SliderTheme(
                 data: SliderTheme.of(context).copyWith(
@@ -147,14 +163,15 @@ class HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     final groceryList grocerylist = Provider.of<groceryList>(context);
+    int colorIndex = grocerylist.colorIndex;
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: bg[colorIndex],
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(65),
         child: AppBar(
           elevation: 0,
-          backgroundColor: appBar[grocerylist.colorIndex],
+          backgroundColor: appBar[colorIndex],
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.vertical(bottom: Radius.elliptical(60, 20))),
           title: Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -180,7 +197,7 @@ class HomePageState extends State<HomePage> {
                 ? Center(
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 40),
-                    child: Text("Nothing to buy!", style: TextStyle(fontFamily: "MavenPro", fontSize: 25, color: Colors.grey[700]),),
+                    child: Text("Nothing to buy!", style: TextStyle(fontFamily: "MavenPro", fontSize: 25, color: words[colorIndex]),),
                   ),
                 )
                 : Padding(
@@ -189,7 +206,8 @@ class HomePageState extends State<HomePage> {
                 )
               ),
               BrowseTiles(),
-              ListofLists(),
+              // ListofLists(),
+              RecipePage(),
               settingsPage(),
             ],
           ),
@@ -199,6 +217,7 @@ class HomePageState extends State<HomePage> {
 // BOTTOM NAVIGATION BAR
 
         bottomNavigationBar: BottomNavyBar(
+          backgroundColor: bg[colorIndex],
           selectedIndex: currentIndex,
           showElevation: true, 
           onItemSelected: (index) {
@@ -208,30 +227,31 @@ class HomePageState extends State<HomePage> {
           items: [
             BottomNavyBarItem(
               icon: Icon(MyFlutterApp.basket),
-              title: Text('My List', style: TextStyle(fontFamily: "MavenPro", fontSize: 15),),
+              title: Text('My List', style: TextStyle(fontFamily: "MavenPro", fontSize: 15, color: navBarText[grocerylist.colorIndex])),
               inactiveColor: Colors.grey,
-              activeColor: appBar[grocerylist.colorIndex],
+              // activeColor: appBar[grocerylist.colorIndex],
+              activeColor: navActive[grocerylist.colorIndex],
               textAlign: TextAlign.center
             ),
             BottomNavyBarItem(
                 icon: Icon(MyFlutterApp.tile),
-                title: Text('Browse',style: TextStyle(fontFamily: "MavenPro", fontSize: 15),),
+                title: Text('Browse',style: TextStyle(fontFamily: "MavenPro", fontSize: 15, color: navBarText[grocerylist.colorIndex])),
                 inactiveColor: Colors.grey,
-                activeColor: appBar[grocerylist.colorIndex],
+                activeColor: navActive[grocerylist.colorIndex],
                 textAlign: TextAlign.center
             ),
             BottomNavyBarItem(
                 icon: Icon(MyFlutterApp.list),
-                title: Text('Lists', style: TextStyle(fontFamily: "MavenPro", fontSize: 15),),
+                title: Text('My Recipes', style: TextStyle(fontFamily: "MavenPro", fontSize: 15, color: navBarText[grocerylist.colorIndex])),
                 inactiveColor: Colors.grey,
-                activeColor: appBar[grocerylist.colorIndex],
+                activeColor: navActive[grocerylist.colorIndex],
                 textAlign: TextAlign.center
             ),
             BottomNavyBarItem(
                 icon: Icon(MyFlutterApp.settings),
-                title: Text('Settings', style: TextStyle(fontFamily: "MavenPro", fontSize: 15),),
+                title: Text('Settings', style: TextStyle(fontFamily: "MavenPro", fontSize: 15, color: navBarText[grocerylist.colorIndex])),
                 inactiveColor: Colors.grey,
-                activeColor: appBar[grocerylist.colorIndex],
+                activeColor: navActive[grocerylist.colorIndex],
                 textAlign: TextAlign.center,
             ),
           ],
