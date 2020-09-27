@@ -1,5 +1,5 @@
 # berry
-BERRY cute shopping list app that eases the pain and inconvenience of having to type out every item when grocery shopping!
+BERRY cute tile-style shopping list app that eases the pain and inconvenience of having to type out every item when grocery shopping!
 
 ![berrymain](https://user-images.githubusercontent.com/65865022/94359216-542b6c80-00d8-11eb-827f-799325400798.gif)
 
